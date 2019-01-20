@@ -24,15 +24,20 @@ import java.util.Date;
 public class MainSchedule extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.preference_key), MODE_PRIVATE);
-    SharedPreferences.Editor prefEdit = sharedPreferences.edit();
+    SharedPreferences sharedPreferences;
+    SharedPreferences.Editor prefEdit;
+
+    boolean firstLaunch = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_schedule);
 
-        if(!sharedPreferences.contains("firstLaunch")) {
+        sharedPreferences = getSharedPreferences(getString(R.string.preference_key), MODE_PRIVATE);
+        prefEdit = sharedPreferences.edit();
+
+        if(!sharedPreferences.contains("firstLaunch") || !firstLaunch) {
             firstLaunch();
         }
 

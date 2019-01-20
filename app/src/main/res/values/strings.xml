@@ -1,8 +1,14 @@
 <resources>
     <string name="preference_key">com.stauss.simon.stundenplan.config</string>
+
     <string name="app_name">Stundenplan</string>
     <string name="schedule">Stundenplan</string>
     <string name="homework">Hausaufgaben</string>
+
+    <string name="welcome1">Herzlich Willkommen zu der Stundenplan-App!</string>
+    <string name="welcome2">Hier wirst du nun deinen Stundenplan eintragen und weitere Einstellungen treffen können!</string>
+    <string name="welcome3">Trage nun in die Box unten bitte deinen Namen ein und bestätige</string>
+    <string name="name_hint">Trage hier bitte deinen Namen ein</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>

@@ -10,11 +10,11 @@
             <item
                 android:id="@+id/scheduleToday"
                 android:icon="@android:drawable/ic_menu_agenda"
-                android:title="Heute"></item>
+                android:title="@string/nav_today"/>
             <item
-                android:id="@+id/scheduleOverall"
+                android:id="@+id/scheduleOverview"
                 android:icon="@android:drawable/ic_menu_sort_by_size"
-                android:title="Übersicht"></item>
+                android:title="@string/nav_overview"/>
         </menu>
     </item>
 
@@ -23,19 +23,18 @@
         android:id="@+id/homeworkCategory" >
         <menu>
             <item
-                android:id="@+id/homeworkOverall"
+                android:id="@+id/homeworkOverview"
                 android:icon="@android:drawable/ic_menu_sort_by_size"
-                android:title="Übersicht" />
+                android:title="@string/nav_overview" />
             <item
                 android:id="@+id/homeworkAdd"
                 android:icon="@android:drawable/ic_menu_add"
-                android:title="Hausaufgabe hinzufügen" />
+                android:title="@string/nav_addHomework" />
         </menu>
     </item>
-    <item android:title="" />
     <item
         android:id="@+id/settings"
         android:icon="@drawable/ic_menu_manage"
-        android:title="@string/action_settings" />
+        android:title="@string/nav_settings" />
 
 </menu>

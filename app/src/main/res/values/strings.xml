@@ -2,10 +2,15 @@
     <string name="app_name">Stundenplan</string>
     <string name="schedule">Stundenplan</string>
     <string name="homework">Hausaufgaben</string>
+
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">Max Mustermann</string>
-    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_name">Max Mustermann</string>
     <string name="nav_header_desc">Navigation header</string>
-    <string name="action_settings">Einstellungen</string>
+    <string name="nav_settings">Einstellungen</string>
+    <string name="nav_today">Heute</string>
+    <string name="nav_overview">Übersicht</string>
+    <string name="nav_addHomework">Hausaufgabe hinzufügen</string>
+
+    <string name="schedule_today">Deine Fächer heute sind: </string>
 </resources>

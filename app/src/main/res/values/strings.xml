@@ -1,4 +1,5 @@
 <resources>
+    <string name="preference_key">com.stauss.simon.stundenplan.config</string>
     <string name="app_name">Stundenplan</string>
     <string name="schedule">Stundenplan</string>
     <string name="homework">Hausaufgaben</string>

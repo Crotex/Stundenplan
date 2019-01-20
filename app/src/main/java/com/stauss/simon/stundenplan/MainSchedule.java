@@ -1,5 +1,7 @@
 package com.stauss.simon.stundenplan;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -22,10 +24,18 @@ import java.util.Date;
 public class MainSchedule extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.preference_key), MODE_PRIVATE);
+    SharedPreferences.Editor prefEdit = sharedPreferences.edit();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_schedule);
+
+        if(!sharedPreferences.contains("firstLaunch")) {
+            firstLaunch();
+        }
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -39,7 +49,7 @@ public class MainSchedule extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         TableLayout table = findViewById(R.id.table);
-        buildTableDaily(table);
+        buildDailySchedule(table);
 
         TextView text = findViewById(R.id.textView);
         text.setVisibility(View.VISIBLE);
@@ -98,7 +108,8 @@ public class MainSchedule extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-    private void buildTableDaily(TableLayout tableLayout) {
+
+    private void buildDailySchedule(TableLayout tableLayout) {
         for (int i = 1; i <= 11; i++) {
             TableRow row = new TableRow(this);
             row.setLayoutParams(new TableRow.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
@@ -118,5 +129,12 @@ public class MainSchedule extends AppCompatActivity
             row.addView(room, new TableRow.LayoutParams(2));
             tableLayout.addView(row);
         }
+    }
+
+    private void firstLaunch() {
+        Intent i = new Intent();
+        i.setClass(this, FirstLaunch.class);
+        startActivity(i);
+
     }
 }

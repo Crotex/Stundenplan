@@ -9,6 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".FirstLaunch"></activity>
         <activity
             android:name=".MainSchedule"
             android:label="@string/app_name"

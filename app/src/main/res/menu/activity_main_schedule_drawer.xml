@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <item
+        android:id="@+id/scheduleCategory"
+        android:title="@string/app_name" >
+        <menu>
+            <item
+                android:id="@+id/scheduleToday"
+                android:icon="@android:drawable/ic_menu_agenda"
+                android:title="Heute"></item>
+            <item
+                android:id="@+id/scheduleOverall"
+                android:icon="@android:drawable/ic_menu_sort_by_size"
+                android:title="Übersicht"></item>
+        </menu>
+    </item>
+
+    <item
+        android:title="@string/homework"
+        android:id="@+id/homeworkCategory" >
+        <menu>
+            <item
+                android:id="@+id/homeworkOverall"
+                android:icon="@android:drawable/ic_menu_sort_by_size"
+                android:title="Übersicht" />
+            <item
+                android:id="@+id/homeworkAdd"
+                android:icon="@android:drawable/ic_menu_add"
+                android:title="Hausaufgabe hinzufügen" />
+        </menu>
+    </item>
+    <item android:title="" />
+    <item
+        android:id="@+id/settings"
+        android:icon="@drawable/ic_menu_manage"
+        android:title="@string/action_settings" />
+
+</menu>

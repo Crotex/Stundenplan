@@ -19,7 +19,8 @@
             android:id="@+id/textView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="18sp"
+            android:textSize="14sp"
+            android:visibility="visible"
             tools:text="@string/schedule_today" />
 
         <Space
@@ -41,23 +42,26 @@
                 <TextView
                     android:id="@+id/tableHours"
                     android:layout_column="0"
-                    android:layout_weight="0.2"
                     android:text="Stunde"
                     android:textSize="18sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:layout_marginLeft="20px"/>
 
                 <TextView
                     android:id="@+id/tableSubject"
                     android:layout_column="1"
                     android:layout_gravity="center"
                     android:text="Fach"
-                    android:textSize="18sp" />
+                    android:textSize="18sp"
+                    android:textStyle="bold"/>
 
                 <TextView
                     android:id="@+id/tableRoom"
                     android:layout_column="2"
                     android:text="Raum"
-                    android:textSize="18sp" />
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:layout_marginRight="50px"/>
             </TableRow>
 
 

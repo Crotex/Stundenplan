@@ -7,7 +7,7 @@
 
     <string name="welcome1">Herzlich Willkommen zu der Stundenplan-App!</string>
     <string name="welcome2">Hier wirst du nun deinen Stundenplan eintragen und weitere Einstellungen treffen können!</string>
-    <string name="welcome3">Trage nun in die Box unten bitte deinen Namen ein und bestätige</string>
+    <string name="welcome3">Trage nun in die Box unten bitte deinen Namen ein und bestätige.</string>
     <string name="name_hint">Trage hier bitte deinen Namen ein</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
@@ -20,4 +20,7 @@
     <string name="nav_addHomework">Hausaufgabe hinzufügen</string>
 
     <string name="schedule_today">Deine Fächer heute sind: </string>
+    <string name="title_activity_schedule_edit">ScheduleEdit</string>
+    <string name="action_settings">Settings</string>
+    <string name="section_format">Hello World from section: %1$d</string>
 </resources>

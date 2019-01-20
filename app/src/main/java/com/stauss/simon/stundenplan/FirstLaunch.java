@@ -1,5 +1,6 @@
 package com.stauss.simon.stundenplan;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -38,6 +39,9 @@ public class FirstLaunch extends AppCompatActivity {
                 if(actionId == EditorInfo.IME_ACTION_SEARCH || actionId == EditorInfo.IME_ACTION_DONE || event != null && event.getAction() == KeyEvent.ACTION_DOWN && event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
                     if(event == null || !event.isShiftPressed()) {
                         setName(nameInput.getText().toString());
+                        Intent i = new Intent();
+                        i.setClass(getApplicationContext(), ScheduleEdit.class);
+                        startActivity(i);
                         return true;
                     }
                 }

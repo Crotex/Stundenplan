@@ -28,10 +28,12 @@
         <menu>
             <item
                 android:id="@+id/homeworkOverview"
+                android:enabled="false"
                 android:icon="@android:drawable/ic_menu_sort_by_size"
                 android:title="@string/nav_overview" />
             <item
                 android:id="@+id/homeworkAdd"
+                android:enabled="false"
                 android:icon="@android:drawable/ic_menu_add"
                 android:title="@string/nav_addHomework" />
         </menu>

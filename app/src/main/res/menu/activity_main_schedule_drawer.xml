@@ -15,6 +15,10 @@
                 android:id="@+id/scheduleOverview"
                 android:icon="@android:drawable/ic_menu_sort_by_size"
                 android:title="@string/nav_overview"/>
+            <item
+                android:id="@+id/scheduleEdit"
+                android:icon="@android:drawable/ic_menu_edit"
+                android:title="@string/nav_edit_schedule" />
         </menu>
     </item>
 

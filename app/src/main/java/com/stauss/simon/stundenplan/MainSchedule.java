@@ -9,6 +9,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -19,6 +20,7 @@ import android.widget.TableRow;
 import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 public class MainSchedule extends AppCompatActivity
@@ -27,7 +29,8 @@ public class MainSchedule extends AppCompatActivity
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor prefEdit;
 
-
+    String day;
+    String[] days = {"", "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,12 +59,18 @@ public class MainSchedule extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         TableLayout table = findViewById(R.id.table);
-        buildDailySchedule(table);
 
         TextView text = findViewById(R.id.textView);
         text.setVisibility(View.VISIBLE);
         String date = new SimpleDateFormat("EEEE, dd. MMMM yyyy").format(new Date());
         text.setText("Heute, " + date + ", hast du folgende Fächer:" );
+
+        day = days[Calendar.DAY_OF_WEEK - 6];
+
+        TextView name = findViewById(R.id.userName);
+        //name.setText(sharedPreferences.getString("name", getString(R.string.nav_header_name)));
+
+        buildDailySchedule(table);
     }
 
     @Override
@@ -98,17 +107,23 @@ public class MainSchedule extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
+        Intent i = new Intent();
 
         if (id == R.id.scheduleToday) {
-            //Ignore; Activity is open
+            //This very activity -> Do nothing
         } else if (id == R.id.scheduleOverview) {
-
+            //Open Overview activity
+        } else if (id == R.id.scheduleEdit) {
+            i.putExtra("day", 1);
+            openActivity(i, ScheduleEdit.class);
         } else if (id == R.id.homeworkAdd) {
 
         } else if (id == R.id.homeworkOverview) {
 
         } else if(id == R.id.settings) {
 
+        } else {
+            return false;
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -127,11 +142,13 @@ public class MainSchedule extends AppCompatActivity
             h.setGravity(Gravity.CENTER);
 
             TextView sub = new TextView(this);
-            sub.setText("Fach" + i);
+            sub.setText(sharedPreferences.getString(day + i + "s", "-"));
+            Log.d("Fach" + i, sharedPreferences.getString(day + i + "r", "-"));
             sub.setGravity(Gravity.CENTER);
 
             TextView room = new TextView(this);
-            room.setText("Raum" + i);
+            room.setText(sharedPreferences.getString(day + i + "r", "-"));
+            Log.d("Raum" + i, sharedPreferences.getString(day + i + "r", "-"));
             room.setPadding(0,0,50, 0);
             room.setGravity(Gravity.CENTER);
 
@@ -148,5 +165,10 @@ public class MainSchedule extends AppCompatActivity
         i.setClass(this, FirstLaunch.class);
         startActivity(i);
 
+    }
+
+    private void openActivity(Intent i, Class c) {
+        i.setClass(this, c);
+        startActivity(i);
     }
 }

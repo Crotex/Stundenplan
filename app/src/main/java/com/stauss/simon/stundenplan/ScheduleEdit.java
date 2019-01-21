@@ -39,22 +39,26 @@ public class ScheduleEdit extends AppCompatActivity {
         findViewById(R.id.submitButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                for(int i = 1; i <= 11; i++) {
-                    EditText subject = findViewById(20+i);
-                    EditText room = findViewById(40+i);
-                    setLesson(days[day], i, subject.getText().toString(), room.getText().toString());
-                }
+                getInput();
                 if(prefEdit.commit()) {
                     Intent i = new Intent();
                     if(day <= 4) {
-                        i.setClass(getApplicationContext(), ScheduleEdit.class);
                         i.putExtra("day", day + 1);
-                        startActivity(i);
+                        openActivity(i, ScheduleEdit.class);
                     } else {
-                        i.setClass(getApplicationContext(), MainSchedule.class);
-                        startActivity(i);
+                        openActivity(i, MainSchedule.class);
                     }
 
+                }
+            }
+        });
+
+        findViewById(R.id.finishedButton).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getInput();
+                if(prefEdit.commit()) {
+                    openActivity(new Intent(), MainSchedule.class);
                 }
             }
         });
@@ -73,12 +77,14 @@ public class ScheduleEdit extends AppCompatActivity {
             EditText sub = new EditText(this);
             sub.setId(20+i);
             sub.setHint("Fach" + i);
+            sub.setText(sharedPreferences.getString(days[day] + i + "s", ""));
             sub.setGravity(Gravity.CENTER);
             sub.setSingleLine(true);
 
             EditText room = new EditText(this);
             room.setId(40+i);
             room.setHint("Raum" + i);
+            room.setText(sharedPreferences.getString(days[day] + i + "r", ""));
             room.setGravity(Gravity.CENTER);
             room.setSingleLine(true);
 
@@ -90,17 +96,30 @@ public class ScheduleEdit extends AppCompatActivity {
         }
     }
 
+    private void getInput() {
+        for(int i = 1; i <= 11; i++) {
+            EditText subject = findViewById(20+i);
+            EditText room = findViewById(40+i);
+            setLesson(days[day], i, subject.getText().toString(), room.getText().toString());
+        }
+    }
+
     private void setLesson(String day, int hour, String subject, String room) {
-        if(subject != null) {
+        if(!subject.equalsIgnoreCase("")) {
             prefEdit.putString(day + hour + "s", subject);
-            prefEdit.putString(day + hour + "r", room);
         } else {
             prefEdit.putString(day + hour + "s", "-");
+        }
+
+        if(!room.equalsIgnoreCase("")) {
+            prefEdit.putString(day + hour + "r", room);
+        } else {
             prefEdit.putString(day + hour + "r", "-");
         }
-        Log.d("Fach hinzugefügt", subject + " am " + day + " in der " + hour + ". Stunde");
+    }
 
+    private void openActivity(Intent i, Class c) {
+        i.setClass(getApplicationContext(), c);
+        startActivity(i);
     }
 }
-
-

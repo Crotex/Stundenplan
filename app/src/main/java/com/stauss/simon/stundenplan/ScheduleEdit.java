@@ -1,123 +1,106 @@
 package com.stauss.simon.stundenplan;
 
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
-
+import android.widget.EditText;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 
 public class ScheduleEdit extends AppCompatActivity {
 
-    /**
-     * The {@link android.support.v4.view.PagerAdapter} that will provide
-     * fragments for each of the sections. We use a
-     * {@link FragmentPagerAdapter} derivative, which will keep every
-     * loaded fragment in memory. If this becomes too memory intensive, it
-     * may be best to switch to a
-     * {@link android.support.v4.app.FragmentStatePagerAdapter}.
-     */
-    private SectionsPagerAdapter mSectionsPagerAdapter;
+    SharedPreferences sharedPreferences;
+    SharedPreferences.Editor prefEdit;
 
-    /**
-     * The {@link ViewPager} that will host the section contents.
-     */
-    private ViewPager mViewPager;
+    int day;
+    String[] days = {"", "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_schedule_edit);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        // Create the adapter that will return a fragment for each of the three
-        // primary sections of the activity.
-        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+        sharedPreferences = getSharedPreferences(getString(R.string.preference_key), MODE_PRIVATE);
+        prefEdit = sharedPreferences.edit();
 
-        // Set up the ViewPager with the sections adapter.
-        mViewPager = (ViewPager) findViewById(R.id.container);
-        mViewPager.setAdapter(mSectionsPagerAdapter);
+        day = getIntent().getIntExtra("day", 1);
+
+        TextView header = findViewById(R.id.header);
+        header.setText(getString(R.string.schedule_edit_header).replace("%DAY%", days[day]));
+
+        buildTable((TableLayout)findViewById(R.id.table));
+
+        findViewById(R.id.submitButton).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                for(int i = 1; i <= 11; i++) {
+                    EditText subject = findViewById(20+i);
+                    EditText room = findViewById(40+i);
+                    setLesson(days[day], i, subject.getText().toString(), room.getText().toString());
+                }
+                if(prefEdit.commit()) {
+                    Intent i = new Intent();
+                    if(day <= 4) {
+                        i.setClass(getApplicationContext(), ScheduleEdit.class);
+                        i.putExtra("day", day + 1);
+                        startActivity(i);
+                    } else {
+                        i.setClass(getApplicationContext(), MainSchedule.class);
+                        startActivity(i);
+                    }
+
+                }
+            }
+        });
     }
 
+    private void buildTable(TableLayout tableLayout) {
+        for (int i = 1; i <= 11; i++) {
+            TableRow row = new TableRow(this);
+            row.setLayoutParams(new TableRow.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+            row.setPadding(0, 5, 0, 5);
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        return true;
-    }
+            TextView h = new TextView(this);
+            h.setText("" + i);
+            h.setGravity(Gravity.CENTER);
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        return super.onOptionsItemSelected(item);
-    }
+            EditText sub = new EditText(this);
+            sub.setId(20+i);
+            sub.setHint("Fach" + i);
+            sub.setGravity(Gravity.CENTER);
+            sub.setSingleLine(true);
 
-    /**
-     * A placeholder fragment containing a simple view.
-     */
-    public static class PlaceholderFragment extends Fragment {
-        /**
-         * The fragment argument representing the section number for this
-         * fragment.
-         */
-        private static final String ARG_SECTION_NUMBER = "section_number";
+            EditText room = new EditText(this);
+            room.setId(40+i);
+            room.setHint("Raum" + i);
+            room.setGravity(Gravity.CENTER);
+            room.setSingleLine(true);
 
-        public PlaceholderFragment() {
-        }
-
-        /**
-         * Returns a new instance of this fragment for the given section
-         * number.
-         */
-        public static PlaceholderFragment newInstance(int sectionNumber) {
-            PlaceholderFragment fragment = new PlaceholderFragment();
-            Bundle args = new Bundle();
-            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-            fragment.setArguments(args);
-            return fragment;
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_schedule_edit, container, false);
-            TextView textView = (TextView) rootView.findViewById(R.id.section_label);
-            textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
-            return rootView;
+            row.addView(h, new TableRow.LayoutParams(0));
+            row.addView(sub, new TableRow.LayoutParams(1));
+            row.addView(room, new TableRow.LayoutParams(2));
+            
+            tableLayout.addView(row);
         }
     }
 
-    /**
-     * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
-     * one of the sections/tabs/pages.
-     */
-    public class SectionsPagerAdapter extends FragmentPagerAdapter {
-
-        public SectionsPagerAdapter(FragmentManager fm) {
-            super(fm);
+    private void setLesson(String day, int hour, String subject, String room) {
+        if(subject != null) {
+            prefEdit.putString(day + hour + "s", subject);
+            prefEdit.putString(day + hour + "r", room);
+        } else {
+            prefEdit.putString(day + hour + "s", "-");
+            prefEdit.putString(day + hour + "r", "-");
         }
+        Log.d("Fach hinzugefügt", subject + " am " + day + " in der " + hour + ". Stunde");
 
-        @Override
-        public Fragment getItem(int position) {
-            // getItem is called to instantiate the fragment for the given page.
-            // Return a PlaceholderFragment (defined as a static inner class below).
-            return PlaceholderFragment.newInstance(position + 1);
-        }
-
-        @Override
-        public int getCount() {
-            // Show 5 total pages. Mo-Fr
-            return 5;
-        }
     }
 }
+
+

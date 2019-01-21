@@ -10,6 +10,11 @@
     <string name="welcome3">Trage nun in die Box unten bitte deinen Namen ein und bestätige.</string>
     <string name="name_hint">Trage hier bitte deinen Namen ein</string>
 
+    <string name="schedule_edit_header">Dein Stundenplan für %DAY%</string>
+    <string name="schedule_lesson">Stunde</string>
+    <string name="schedule_subject">Fach</string>
+    <string name="schedule_room">Raum</string>
+
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_name">Max Mustermann</string>

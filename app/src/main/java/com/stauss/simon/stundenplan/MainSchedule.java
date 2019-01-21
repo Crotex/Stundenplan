@@ -27,7 +27,7 @@ public class MainSchedule extends AppCompatActivity
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor prefEdit;
 
-    boolean firstLaunch = false;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +37,9 @@ public class MainSchedule extends AppCompatActivity
         sharedPreferences = getSharedPreferences(getString(R.string.preference_key), MODE_PRIVATE);
         prefEdit = sharedPreferences.edit();
 
-        if(!sharedPreferences.contains("firstLaunch") || !firstLaunch) {
+        boolean firstLaunch = sharedPreferences.getBoolean("firstLaunch", true);
+
+        if(firstLaunch) {
             firstLaunch();
         }
 
@@ -119,19 +121,24 @@ public class MainSchedule extends AppCompatActivity
             TableRow row = new TableRow(this);
             row.setLayoutParams(new TableRow.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
             row.setPadding(0, 5, 0, 5);
+
             TextView h = new TextView(this);
             h.setText("" + i);
             h.setGravity(Gravity.CENTER);
+
             TextView sub = new TextView(this);
             sub.setText("Fach" + i);
             sub.setGravity(Gravity.CENTER);
+
             TextView room = new TextView(this);
             room.setText("Raum" + i);
             room.setPadding(0,0,50, 0);
             room.setGravity(Gravity.CENTER);
+
             row.addView(h, new TableRow.LayoutParams(0));
             row.addView(sub, new TableRow.LayoutParams(1));
             row.addView(room, new TableRow.LayoutParams(2));
+
             tableLayout.addView(row);
         }
     }

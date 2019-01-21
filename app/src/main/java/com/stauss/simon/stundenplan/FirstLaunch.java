@@ -23,6 +23,8 @@ public class FirstLaunch extends AppCompatActivity {
 
         sharedPreferences = getSharedPreferences(getString(R.string.preference_key), MODE_PRIVATE);
         prefEdit = sharedPreferences.edit();
+        prefEdit.putBoolean("firstLaunch", false);
+        prefEdit.apply();
 
         nameInput = findViewById(R.id.nameInput);
         nameInput.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -41,6 +43,7 @@ public class FirstLaunch extends AppCompatActivity {
                         setName(nameInput.getText().toString());
                         Intent i = new Intent();
                         i.setClass(getApplicationContext(), ScheduleEdit.class);
+                        i.putExtra("day", 1);
                         startActivity(i);
                         return true;
                     }

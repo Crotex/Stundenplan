@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -31,6 +32,14 @@ public class ScheduleEdit extends AppCompatActivity {
 
         day = getIntent().getIntExtra("day", 1);
 
+        if(day == 5) {
+            findViewById(R.id.finishedButton).setVisibility(View.INVISIBLE);
+            Button b = findViewById(R.id.submitButton);
+            b.setText("Fertig");
+        } else if (day == 1) {
+            findViewById(R.id.backButton).setVisibility(View.GONE);
+        }
+
         TextView header = findViewById(R.id.header);
         header.setText(getString(R.string.schedule_edit_header).replace("%DAY%", days[day]));
 
@@ -48,6 +57,20 @@ public class ScheduleEdit extends AppCompatActivity {
                     } else {
                         openActivity(i, MainSchedule.class);
                     }
+
+                }
+            }
+        });
+
+        findViewById(R.id.backButton).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getInput();
+                if(prefEdit.commit()) {
+                    Intent i = new Intent();
+                    i.putExtra("day", day - 1);
+                    openActivity(i, ScheduleEdit.class);
+
 
                 }
             }
@@ -74,17 +97,30 @@ public class ScheduleEdit extends AppCompatActivity {
             h.setText("" + i);
             h.setGravity(Gravity.CENTER);
 
+            String subject;
             EditText sub = new EditText(this);
             sub.setId(20+i);
             sub.setHint("Fach" + i);
-            sub.setText(sharedPreferences.getString(days[day] + i + "s", ""));
+            subject = sharedPreferences.getString(days[day] + i + "s", "");
+            if(subject.equalsIgnoreCase("-")) {
+                sub.setText("");
+            } else {
+                sub.setText(subject);
+            }
+
             sub.setGravity(Gravity.CENTER);
             sub.setSingleLine(true);
 
+            String rooms;
             EditText room = new EditText(this);
             room.setId(40+i);
             room.setHint("Raum" + i);
-            room.setText(sharedPreferences.getString(days[day] + i + "r", ""));
+            rooms = sharedPreferences.getString(days[day] + i + "r", "");
+            if(rooms.equalsIgnoreCase("-")) {
+                room.setText("");
+            } else {
+                room.setText(rooms);
+            }
             room.setGravity(Gravity.CENTER);
             room.setSingleLine(true);
 

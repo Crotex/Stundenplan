@@ -65,7 +65,8 @@ public class MainSchedule extends AppCompatActivity
         String date = new SimpleDateFormat("EEEE, dd. MMMM yyyy").format(new Date());
         text.setText("Heute, " + date + ", hast du folgende Fächer:" );
 
-        day = days[Calendar.DAY_OF_WEEK - 6];
+        int daynr = Integer.parseInt(new SimpleDateFormat("u").format(new Date()));
+        day = days[daynr];
 
         TextView name = findViewById(R.id.userName);
         //name.setText(sharedPreferences.getString("name", getString(R.string.nav_header_name)));
@@ -143,12 +144,10 @@ public class MainSchedule extends AppCompatActivity
 
             TextView sub = new TextView(this);
             sub.setText(sharedPreferences.getString(day + i + "s", "-"));
-            Log.d("Fach" + i, sharedPreferences.getString(day + i + "r", "-"));
             sub.setGravity(Gravity.CENTER);
 
             TextView room = new TextView(this);
             room.setText(sharedPreferences.getString(day + i + "r", "-"));
-            Log.d("Raum" + i, sharedPreferences.getString(day + i + "r", "-"));
             room.setPadding(0,0,50, 0);
             room.setGravity(Gravity.CENTER);
 

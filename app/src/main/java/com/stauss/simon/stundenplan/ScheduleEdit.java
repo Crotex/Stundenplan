@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,12 +19,15 @@ public class ScheduleEdit extends AppCompatActivity {
     SharedPreferences.Editor prefEdit;
 
     int day;
-    String[] days = {"", "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag"};
+    String[] days;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_schedule_edit);
+
+        ScheduleToday main = new ScheduleToday();
+        days = main.getWeek();
 
         sharedPreferences = getSharedPreferences(getString(R.string.preference_key), MODE_PRIVATE);
         prefEdit = sharedPreferences.edit();
@@ -55,7 +57,7 @@ public class ScheduleEdit extends AppCompatActivity {
                         i.putExtra("day", day + 1);
                         openActivity(i, ScheduleEdit.class);
                     } else {
-                        openActivity(i, MainSchedule.class);
+                        openActivity(i, ScheduleToday.class);
                     }
 
                 }
@@ -81,7 +83,7 @@ public class ScheduleEdit extends AppCompatActivity {
             public void onClick(View v) {
                 getInput();
                 if(prefEdit.commit()) {
-                    openActivity(new Intent(), MainSchedule.class);
+                    openActivity(new Intent(), ScheduleToday.class);
                 }
             }
         });

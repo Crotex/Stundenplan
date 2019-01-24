@@ -27,4 +27,8 @@
 
     <string name="schedule_today">Deine Fächer heute sind: </string>
     <string name="title_activity_schedule_edit">ScheduleEdit</string>
+    <string name="title_activity_schedule_overview">ScheduleOverview</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="action_settings">Settings</string>
 </resources>

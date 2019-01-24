@@ -9,7 +9,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -20,22 +19,24 @@ import android.widget.TableRow;
 import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 
-public class MainSchedule extends AppCompatActivity
+public class ScheduleToday extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor prefEdit;
 
-    String day;
+    public String day;
     String[] days = {"", "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag"};
+    int dayNr;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_schedule);
+
+        day = getDay();
 
         sharedPreferences = getSharedPreferences(getString(R.string.preference_key), MODE_PRIVATE);
         prefEdit = sharedPreferences.edit();
@@ -64,9 +65,6 @@ public class MainSchedule extends AppCompatActivity
         text.setVisibility(View.VISIBLE);
         String date = new SimpleDateFormat("EEEE, dd. MMMM yyyy").format(new Date());
         text.setText("Heute, " + date + ", hast du folgende Fächer:" );
-
-        int daynr = Integer.parseInt(new SimpleDateFormat("u").format(new Date()));
-        day = days[daynr];
 
         TextView name = findViewById(R.id.userName);
         //name.setText(sharedPreferences.getString("name", getString(R.string.nav_header_name)));
@@ -108,14 +106,16 @@ public class MainSchedule extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
+
         Intent i = new Intent();
 
         if (id == R.id.scheduleToday) {
             //This very activity -> Do nothing
         } else if (id == R.id.scheduleOverview) {
             //Open Overview activity
+            openActivity(i, ScheduleOverview.class);
         } else if (id == R.id.scheduleEdit) {
-            i.putExtra("day", 1);
+            i.putExtra("day", getDaynr());
             openActivity(i, ScheduleEdit.class);
         } else if (id == R.id.homeworkAdd) {
 
@@ -169,5 +169,19 @@ public class MainSchedule extends AppCompatActivity
     private void openActivity(Intent i, Class c) {
         i.setClass(this, c);
         startActivity(i);
+    }
+
+    public String getDay() {
+        day = days[getDaynr()];
+        return day;
+    }
+
+    public int getDaynr() {
+        dayNr = Integer.parseInt(new SimpleDateFormat("u").format(new Date()));
+        return dayNr;
+    }
+
+    public String[] getWeek() {
+        return days;
     }
 }

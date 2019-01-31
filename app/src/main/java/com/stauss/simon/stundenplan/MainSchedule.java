@@ -90,25 +90,11 @@ public class MainSchedule extends AppCompatActivity
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    @SuppressWarnings("StatementWithEmptyBody")
-    @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
         Intent i = new Intent();
-
 
         if (id == R.id.scheduleToday) {
             //Open today fragment
@@ -117,7 +103,7 @@ public class MainSchedule extends AppCompatActivity
             //Open Overview Fragment
             openFragment(new ScheduleOverviewFragment());
         } else if (id == R.id.scheduleEdit) {
-            i.putExtra("day", getDaynr());
+            i.putExtra("day", getDayNr());
             openActivity(i, ScheduleEdit.class);
         } else if (id == R.id.homeworkAdd) {
 
@@ -132,33 +118,6 @@ public class MainSchedule extends AppCompatActivity
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
-    }
-
-    private void buildDailySchedule(TableLayout tableLayout) {
-        for (int i = 1; i <= 11; i++) {
-            TableRow row = new TableRow(this);
-            row.setLayoutParams(new TableRow.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-            row.setPadding(0, 5, 0, 5);
-
-            TextView h = new TextView(this);
-            h.setText("" + i);
-            h.setGravity(Gravity.CENTER);
-
-            TextView sub = new TextView(this);
-            sub.setText(sharedPreferences.getString(day + i + "s", "-"));
-            sub.setGravity(Gravity.CENTER);
-
-            TextView room = new TextView(this);
-            room.setText(sharedPreferences.getString(day + i + "r", "-"));
-            room.setPadding(0,0,50, 0);
-            room.setGravity(Gravity.CENTER);
-
-            row.addView(h, new TableRow.LayoutParams(0));
-            row.addView(sub, new TableRow.LayoutParams(1));
-            row.addView(room, new TableRow.LayoutParams(2));
-
-            tableLayout.addView(row);
-        }
     }
 
     private void firstLaunch() {
@@ -188,11 +147,11 @@ public class MainSchedule extends AppCompatActivity
     }
 
     public String getDay() {
-        day = days[getDaynr()];
+        day = days[getDayNr()];
         return day;
     }
 
-    public int getDaynr() {
+    public int getDayNr() {
         dayNr = Integer.parseInt(new SimpleDateFormat("u").format(new Date()));
         return dayNr;
     }
@@ -203,6 +162,6 @@ public class MainSchedule extends AppCompatActivity
 
     @Override
     public void onFragmentInteraction(Uri uri) {
-
+        //No Interaction with Fragments needed
     }
 }

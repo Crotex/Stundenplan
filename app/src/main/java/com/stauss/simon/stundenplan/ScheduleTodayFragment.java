@@ -44,7 +44,7 @@ public class ScheduleTodayFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         day = getMain().getDay();
-        
+
         sharedPreferences = getActivity().getSharedPreferences(getString(R.string.preference_key), Context.MODE_PRIVATE);
     }
 

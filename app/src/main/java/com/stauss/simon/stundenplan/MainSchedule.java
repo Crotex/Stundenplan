@@ -49,7 +49,6 @@ public class MainSchedule extends AppCompatActivity
         prefEdit = sharedPreferences.edit();
 
         boolean firstLaunch = sharedPreferences.getBoolean("firstLaunch", true);
-
         if(firstLaunch) {
             firstLaunch();
         }
@@ -66,8 +65,8 @@ public class MainSchedule extends AppCompatActivity
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        TextView name = findViewById(R.id.userName);
-        //name.setText(sharedPreferences.getString("name", getString(R.string.nav_header_name)));
+        TextView name = navigationView.getHeaderView(0).findViewById(R.id.userName);
+        name.setText(sharedPreferences.getString("userName", getString(R.string.userName)));
 
         openFragment(new ScheduleTodayFragment());
     }

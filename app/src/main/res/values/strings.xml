@@ -15,9 +15,10 @@
     <string name="schedule_subject">Fach</string>
     <string name="schedule_room">Raum</string>
 
+    <string name="userName">Max Mustermann</string>
+
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_name">Max Mustermann</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="nav_settings">Einstellungen</string>
     <string name="nav_today">Heute</string>

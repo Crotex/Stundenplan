@@ -2,8 +2,12 @@ package com.stauss.simon.stundenplan;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -21,11 +25,14 @@ import android.widget.TextView;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class ScheduleToday extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+public class MainSchedule extends AppCompatActivity
+        implements NavigationView.OnNavigationItemSelectedListener, ScheduleOverviewFragment.OnFragmentInteractionListener, ScheduleTodayFragment.OnFragmentInteractionListener {
 
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor prefEdit;
+
+    FragmentManager fragmentManager;
+    FragmentTransaction fragmentTransaction;
 
     public String day;
     String[] days = {"", "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag"};
@@ -59,17 +66,10 @@ public class ScheduleToday extends AppCompatActivity
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        TableLayout table = findViewById(R.id.table);
-
-        TextView text = findViewById(R.id.textView);
-        text.setVisibility(View.VISIBLE);
-        String date = new SimpleDateFormat("EEEE, dd. MMMM yyyy").format(new Date());
-        text.setText("Heute, " + date + ", hast du folgende Fächer:" );
-
         TextView name = findViewById(R.id.userName);
         //name.setText(sharedPreferences.getString("name", getString(R.string.nav_header_name)));
 
-        buildDailySchedule(table);
+        openFragment(new ScheduleTodayFragment());
     }
 
     @Override
@@ -109,11 +109,13 @@ public class ScheduleToday extends AppCompatActivity
 
         Intent i = new Intent();
 
+
         if (id == R.id.scheduleToday) {
-            //This very activity -> Do nothing
+            //Open today fragment
+            openFragment(new ScheduleTodayFragment());
         } else if (id == R.id.scheduleOverview) {
-            //Open Overview activity
-            openActivity(i, ScheduleOverview.class);
+            //Open Overview Fragment
+            openFragment(new ScheduleOverviewFragment());
         } else if (id == R.id.scheduleEdit) {
             i.putExtra("day", getDaynr());
             openActivity(i, ScheduleEdit.class);
@@ -171,6 +173,20 @@ public class ScheduleToday extends AppCompatActivity
         startActivity(i);
     }
 
+    private void openFragment(Fragment f) {
+        fragmentManager = getSupportFragmentManager();
+        fragmentTransaction = fragmentManager.beginTransaction();
+
+        fragmentTransaction.replace(R.id.container, f);
+        fragmentTransaction.addToBackStack(null);
+
+        try {
+            fragmentTransaction.commit();
+        } catch (IllegalStateException e) {
+            e.printStackTrace();
+        }
+    }
+
     public String getDay() {
         day = days[getDaynr()];
         return day;
@@ -183,5 +199,10 @@ public class ScheduleToday extends AppCompatActivity
 
     public String[] getWeek() {
         return days;
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
     }
 }

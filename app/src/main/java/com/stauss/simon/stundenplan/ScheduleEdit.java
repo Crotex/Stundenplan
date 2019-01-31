@@ -26,7 +26,7 @@ public class ScheduleEdit extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_schedule_edit);
 
-        ScheduleToday main = new ScheduleToday();
+        MainSchedule main = new MainSchedule();
         days = main.getWeek();
 
         sharedPreferences = getSharedPreferences(getString(R.string.preference_key), MODE_PRIVATE);
@@ -57,7 +57,7 @@ public class ScheduleEdit extends AppCompatActivity {
                         i.putExtra("day", day + 1);
                         openActivity(i, ScheduleEdit.class);
                     } else {
-                        openActivity(i, ScheduleToday.class);
+                        openActivity(i, MainSchedule.class);
                     }
 
                 }
@@ -83,7 +83,7 @@ public class ScheduleEdit extends AppCompatActivity {
             public void onClick(View v) {
                 getInput();
                 if(prefEdit.commit()) {
-                    openActivity(new Intent(), ScheduleToday.class);
+                    openActivity(new Intent(), MainSchedule.class);
                 }
             }
         });

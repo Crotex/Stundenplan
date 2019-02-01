@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,8 +34,7 @@ public class ScheduleOverviewFragment extends Fragment {
      */
     // TODO: Rename and change types and number of parameters
     public static ScheduleOverviewFragment newInstance() {
-        ScheduleOverviewFragment fragment = new ScheduleOverviewFragment();
-        return fragment;
+        return new ScheduleOverviewFragment();
     }
 
     @Override
@@ -93,49 +93,24 @@ public class ScheduleOverviewFragment extends Fragment {
 
     private void buildSchedule(TableLayout table) {
         TableRow row;
-        int c;
-        for (int i = 1; i <= 11; i++) {
-            c = 0;
 
+        for (int i = 1; i <= 11; i++) {
             row = new TableRow(getContext());
-            row.setLayoutParams(new TableRow.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+            row.setLayoutParams(new TableRow.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, 1));
             row.setPadding(0, 5, 0, 5);
 
             TextView h = new TextView(getContext());
             h.setText("" + i);
             h.setGravity(Gravity.CENTER);
-            row.addView(h, new TableRow.LayoutParams(c));
-            c++;
+            row.addView(h, new TableRow.LayoutParams(0));
 
-            TextView subMo = new TextView(getContext());
-            subMo.setText(sharedPreferences.getString( days[c] + i + "s", "-"));
-            subMo.setGravity(Gravity.CENTER);
-            row.addView(subMo, new TableRow.LayoutParams(c));
-            c++;
+            for (int d = 1; d <= 5; d++) {
+                TextView sub = new TextView(getContext());
+                sub.setText(sharedPreferences.getString( days[d] + i + "s", "-"));
+                sub.setGravity(Gravity.CENTER);
 
-            TextView subDi = new TextView(getContext());
-            subDi.setText(sharedPreferences.getString( days[c] + i + "s", "-"));
-            subDi.setGravity(Gravity.CENTER);
-            row.addView(subDi, new TableRow.LayoutParams(c));
-            c++;
-
-            TextView subMi = new TextView(getContext());
-            subMi.setText(sharedPreferences.getString( days[c] + i + "s", "-"));
-            subMi.setGravity(Gravity.CENTER);
-            row.addView(subMi, new TableRow.LayoutParams(c));
-            c++;
-
-            TextView subDo = new TextView(getContext());
-            subDo.setText(sharedPreferences.getString( days[c] + i + "s", "-"));
-            subDo.setGravity(Gravity.CENTER);
-            row.addView(subDo, new TableRow.LayoutParams(c));
-            c++;
-
-            TextView subFr = new TextView(getContext());
-            subFr.setText(sharedPreferences.getString( days[c] + i + "s", "-"));
-            subFr.setGravity(Gravity.CENTER);
-            row.addView(subFr, new TableRow.LayoutParams(c));
-
+                row.addView(sub, new TableRow.LayoutParams(d));
+            }
             table.addView(row);
         }
     }

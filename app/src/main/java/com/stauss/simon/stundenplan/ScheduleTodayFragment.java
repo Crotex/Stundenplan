@@ -35,8 +35,7 @@ public class ScheduleTodayFragment extends Fragment {
      * @return A new instance of fragment ScheduleTodayFragment.
      */
     public static ScheduleTodayFragment newInstance() {
-        ScheduleTodayFragment fragment = new ScheduleTodayFragment();
-        return fragment;
+        return new ScheduleTodayFragment();
     }
 
     @Override

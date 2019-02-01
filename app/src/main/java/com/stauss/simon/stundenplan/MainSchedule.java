@@ -1,5 +1,6 @@
 package com.stauss.simon.stundenplan;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -38,6 +39,7 @@ public class MainSchedule extends AppCompatActivity
     String[] days = {"", "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag"};
     int dayNr;
 
+    @SuppressLint("CommitPrefEdits")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,7 +92,6 @@ public class MainSchedule extends AppCompatActivity
 
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
         int id = item.getItemId();
 
         Intent i = new Intent();
@@ -102,16 +103,15 @@ public class MainSchedule extends AppCompatActivity
             //Open Overview Fragment
             openFragment(new ScheduleOverviewFragment());
         } else if (id == R.id.scheduleEdit) {
+            //Open ScheduleEdit Activity
             i.putExtra("day", getDayNr());
             openActivity(i, ScheduleEdit.class);
         } else if (id == R.id.homeworkAdd) {
-
+            //Open HomworkAdd Activity
         } else if (id == R.id.homeworkOverview) {
-
+            //Open HomeworkOverview Fragment
         } else if(id == R.id.settings) {
-
-        } else {
-            return false;
+            //Open Settings Fragment (Activity?)
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -144,6 +144,7 @@ public class MainSchedule extends AppCompatActivity
             e.printStackTrace();
         }
     }
+
 
     public String getDay() {
         day = days[getDayNr()];

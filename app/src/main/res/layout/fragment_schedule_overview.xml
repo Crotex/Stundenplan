@@ -34,6 +34,8 @@
                         android:text="@string/schedule_lesson"
                         android:textStyle="bold" />
 
+                    <Space android:layout_width="@dimen/schedule_overview_spacing" />
+
                     <TextView
                         android:id="@+id/textView6"
                         android:layout_width="match_parent"

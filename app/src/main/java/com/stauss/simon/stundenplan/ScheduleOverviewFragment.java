@@ -111,7 +111,7 @@ public class ScheduleOverviewFragment extends Fragment {
                 sub.setGravity(Gravity.CENTER);
 
                 Space space = new Space(getContext());
-                row.addView(sub, new TableRow.LayoutParams(d));
+                row.addView(sub, new TableRow.LayoutParams(d + 1));
                 row.addView(space, new TableRow.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
             }
             table.addView(row);

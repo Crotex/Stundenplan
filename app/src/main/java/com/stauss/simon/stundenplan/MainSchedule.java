@@ -126,7 +126,8 @@ public class MainSchedule extends AppCompatActivity
         } else if (id == R.id.homeworkOverview) {
             //Open HomeworkOverview Fragment
         } else if(id == R.id.settings) {
-            //Open Settings Fragment (Activity?)
+            //Open Settings Activity
+            openActivity(i, SettingsActivity.class);
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);

@@ -148,6 +148,7 @@ public class MainSchedule extends AppCompatActivity
 
     private void openActivity(Intent i, Class c) {
         i.setClass(this, c);
+        i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
         startActivity(i);
     }
 

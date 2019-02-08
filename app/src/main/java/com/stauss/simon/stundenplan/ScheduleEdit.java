@@ -158,6 +158,7 @@ public class ScheduleEdit extends AppCompatActivity {
 
     private void openActivity(Intent i, Class c) {
         i.setClass(getApplicationContext(), c);
+        i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
         startActivity(i);
     }
 

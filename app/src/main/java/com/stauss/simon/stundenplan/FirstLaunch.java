@@ -44,6 +44,7 @@ public class FirstLaunch extends AppCompatActivity {
 
                         Intent i = new Intent();
                         i.setClass(getApplicationContext(), ScheduleEdit.class);
+                        i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                         i.putExtra("day", 1);
                         startActivity(i);
                         return true;

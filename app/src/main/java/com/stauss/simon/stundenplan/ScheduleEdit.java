@@ -26,8 +26,7 @@ public class ScheduleEdit extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_schedule_edit);
 
-        MainSchedule main = new MainSchedule();
-        days = main.getWeek();
+        days = getMain().getWeek();
 
         sharedPreferences = getSharedPreferences(getString(R.string.preference_key), MODE_PRIVATE);
         prefEdit = sharedPreferences.edit();
@@ -145,6 +144,7 @@ public class ScheduleEdit extends AppCompatActivity {
     private void setLesson(String day, int hour, String subject, String room) {
         if(!subject.equalsIgnoreCase("")) {
             prefEdit.putString(day + hour + "s", subject);
+            getMain().addSubject(subject);
         } else {
             prefEdit.putString(day + hour + "s", "-");
         }
@@ -159,5 +159,12 @@ public class ScheduleEdit extends AppCompatActivity {
     private void openActivity(Intent i, Class c) {
         i.setClass(getApplicationContext(), c);
         startActivity(i);
+    }
+
+    private MainSchedule getMain() {
+        MainSchedule main = new MainSchedule();
+        main.sharedPreferences = sharedPreferences;
+        main.prefEdit = prefEdit;
+        return main;
     }
 }

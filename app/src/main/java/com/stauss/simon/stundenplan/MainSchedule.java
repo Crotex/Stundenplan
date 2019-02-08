@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -14,6 +15,8 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.ArraySet;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -24,7 +27,12 @@ import android.widget.TableRow;
 import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public class MainSchedule extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, ScheduleOverviewFragment.OnFragmentInteractionListener, ScheduleTodayFragment.OnFragmentInteractionListener {
@@ -38,6 +46,9 @@ public class MainSchedule extends AppCompatActivity
     public String day;
     String[] days = {"", "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag"};
     int dayNr;
+
+    List<String> subjects;
+    String subjectString;
 
     @SuppressLint("CommitPrefEdits")
     @Override
@@ -69,6 +80,10 @@ public class MainSchedule extends AppCompatActivity
 
         TextView name = navigationView.getHeaderView(0).findViewById(R.id.userName);
         name.setText(sharedPreferences.getString("userName", getString(R.string.userName)));
+
+        subjects = getSubjects();
+
+        Log.d("Fächer", subjects.toString());
 
         openFragment(new ScheduleTodayFragment());
     }
@@ -119,6 +134,11 @@ public class MainSchedule extends AppCompatActivity
         return true;
     }
 
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+        //No Interaction with Fragments needed
+    }
+
     private void firstLaunch() {
         Intent i = new Intent();
         i.setClass(this, FirstLaunch.class);
@@ -145,7 +165,6 @@ public class MainSchedule extends AppCompatActivity
         }
     }
 
-
     public String getDay() {
         day = days[getDayNr()];
         return day;
@@ -160,8 +179,36 @@ public class MainSchedule extends AppCompatActivity
         return days;
     }
 
-    @Override
-    public void onFragmentInteraction(Uri uri) {
-        //No Interaction with Fragments needed
+    public void addSubject(String subject) {
+        if(!getSubjects().contains(subject)) {
+            subjects.add(subject);
+            saveSubjects();
+        } else {
+            Log.d("", "Fach " + subject + " bereits enthalten!");
+        }
     }
+
+    public List<String> getSubjects() {
+        subjectString = sharedPreferences.getString("subjects", null);
+        if(subjectString != null) {
+            String[] subjectArray = subjectString.split(";");
+            subjects = new ArrayList<>(Arrays.asList(subjectArray));
+        } else {
+            Log.d("", "Bisher keine Fächer in SP gespeichert -> Neue Liste");
+            subjects = new ArrayList<>();
+        }
+        return subjects;
+    }
+
+    public void saveSubjects() {
+        StringBuilder sb = new StringBuilder();
+        for(String s : subjects) {
+            sb.append(s);
+            sb.append(";");
+        }
+        subjectString = sb.toString();
+        prefEdit.putString("subjects", subjectString);
+        prefEdit.apply();
+    }
+
 }

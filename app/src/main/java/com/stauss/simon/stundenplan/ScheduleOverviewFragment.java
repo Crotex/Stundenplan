@@ -10,6 +10,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Space;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -109,7 +110,9 @@ public class ScheduleOverviewFragment extends Fragment {
                 sub.setText(sharedPreferences.getString( days[d] + i + "s", "-"));
                 sub.setGravity(Gravity.CENTER);
 
+                Space space = new Space(getContext());
                 row.addView(sub, new TableRow.LayoutParams(d));
+                row.addView(space, new TableRow.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
             }
             table.addView(row);
         }

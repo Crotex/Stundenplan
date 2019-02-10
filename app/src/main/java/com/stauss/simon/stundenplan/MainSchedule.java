@@ -34,8 +34,14 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class MainSchedule extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, ScheduleOverviewFragment.OnFragmentInteractionListener, ScheduleTodayFragment.OnFragmentInteractionListener {
+public class MainSchedule
+        extends
+            AppCompatActivity
+        implements
+            NavigationView.OnNavigationItemSelectedListener,
+            ScheduleOverviewFragment.OnFragmentInteractionListener,
+            ScheduleTodayFragment.OnFragmentInteractionListener,
+            HomeworkOverviewFragment.OnFragmentInteractionListener {
 
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor prefEdit;
@@ -83,8 +89,6 @@ public class MainSchedule extends AppCompatActivity
 
         subjects = getSubjects();
 
-        Log.d("Fächer", subjects.toString());
-
         openFragment(new ScheduleTodayFragment());
     }
 
@@ -125,6 +129,7 @@ public class MainSchedule extends AppCompatActivity
             //Open HomworkAdd Activity
         } else if (id == R.id.homeworkOverview) {
             //Open HomeworkOverview Fragment
+            openFragment(new HomeworkOverviewFragment());
         } else if(id == R.id.settings) {
             //Open Settings Activity
             openActivity(i, SettingsActivity.class);
@@ -167,6 +172,14 @@ public class MainSchedule extends AppCompatActivity
         }
     }
 
+    public boolean isWeekend() {
+        if(getDayNr() > 6) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public String getDay() {
         day = days[getDayNr()];
         return day;
@@ -174,6 +187,9 @@ public class MainSchedule extends AppCompatActivity
 
     public int getDayNr() {
         dayNr = Integer.parseInt(new SimpleDateFormat("u").format(new Date()));
+        if(dayNr > 5) {
+            dayNr = 1;
+        }
         return dayNr;
     }
 
@@ -196,7 +212,6 @@ public class MainSchedule extends AppCompatActivity
             String[] subjectArray = subjectString.split(";");
             subjects = new ArrayList<>(Arrays.asList(subjectArray));
         } else {
-            Log.d("", "Bisher keine Fächer in SP gespeichert -> Neue Liste");
             subjects = new ArrayList<>();
         }
         return subjects;

@@ -52,9 +52,12 @@ public class ScheduleTodayFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_schedule_today, container, false);
 
         TextView text = v.findViewById(R.id.textView);
-        text.setVisibility(View.VISIBLE);
-        String date = new SimpleDateFormat("EEEE, dd. MMMM yyyy").format(new Date());
-        text.setText("Heute, " + date + ", hast du folgende Fächer:" );
+        if(getMain().isWeekend()) {
+            String date = new SimpleDateFormat("EEEE, dd. MMMM yyyy").format(new Date());
+            text.setText("Heute, " + date + ", hast du folgende Fächer:" );
+        } else {
+            text.setText("Am folgenden Montag (TODO: DATUM) hast du folgende Fächer:");
+        }
 
         buildSchedule((TableLayout) v.findViewById(R.id.table));
 

@@ -57,6 +57,7 @@ public class MainSchedule
     List<String> homework;
     String homeworkString;
     String homeworkRegex = "||";
+    String homeworkSubregex = "|";
 
     @SuppressLint("CommitPrefEdits")
     @Override
@@ -90,11 +91,11 @@ public class MainSchedule
         name.setText(sharedPreferences.getString("userName", getString(R.string.userName)));
 
         subjectString = sharedPreferences.getString("subjects", "");
-        subjects = stringToList(subjectString, subjectRegex);
+        subjects = getSubjects();
 
         homeworkString = sharedPreferences.getString("homework", "");
-        homework = stringToList(homeworkString, homeworkRegex);
-
+        homework = getHomework();
+        
         openFragment(new ScheduleTodayFragment());
     }
 
@@ -221,6 +222,24 @@ public class MainSchedule
         subjectString = listToString(subjects, subjectRegex);
         prefEdit.putString("subjects", subjectString);
         prefEdit.apply();
+    }
+
+    public void addHomework(String subject, String description, String dueTo) {
+        String homeworkSubstring = subject + homeworkSubregex + description + homeworkSubregex + dueTo;
+        homework.add(homeworkSubstring);
+        saveHomework();
+    }
+
+    public List<String> getHomework() {
+        homeworkString = sharedPreferences.getString("homework", "");
+        homework = stringToList(homeworkString, homeworkRegex);
+        return homework;
+    }
+
+    public void saveHomework() {
+        homeworkString = listToString(homework, homeworkRegex);
+        prefEdit.putString("homework", homeworkString);
+        prefEdit.commit();
     }
 
     public String listToString(List<String> list, String regex) {

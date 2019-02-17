@@ -46,15 +46,17 @@ public class MainSchedule
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor prefEdit;
 
-    FragmentManager fragmentManager;
-    FragmentTransaction fragmentTransaction;
-
     public String day;
     String[] days = {"", "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag"};
     int dayNr;
 
     List<String> subjects;
     String subjectString;
+    String subjectRegex = ";";
+
+    List<String> homework;
+    String homeworkString;
+    String homeworkRegex = "||";
 
     @SuppressLint("CommitPrefEdits")
     @Override
@@ -87,7 +89,11 @@ public class MainSchedule
         TextView name = navigationView.getHeaderView(0).findViewById(R.id.userName);
         name.setText(sharedPreferences.getString("userName", getString(R.string.userName)));
 
-        subjects = getSubjects();
+        subjectString = sharedPreferences.getString("subjects", "");
+        subjects = stringToList(subjectString, subjectRegex);
+
+        homeworkString = sharedPreferences.getString("homework", "");
+        homework = stringToList(homeworkString, homeworkRegex);
 
         openFragment(new ScheduleTodayFragment());
     }
@@ -159,8 +165,8 @@ public class MainSchedule
     }
 
     private void openFragment(Fragment f) {
-        fragmentManager = getSupportFragmentManager();
-        fragmentTransaction = fragmentManager.beginTransaction();
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
         fragmentTransaction.replace(R.id.container, f);
         fragmentTransaction.addToBackStack(null);
@@ -175,9 +181,8 @@ public class MainSchedule
     public boolean isWeekend() {
         if(getDayNr() > 6) {
             return true;
-        } else {
-            return false;
         }
+        return false;
     }
 
     public String getDay() {
@@ -207,25 +212,33 @@ public class MainSchedule
     }
 
     public List<String> getSubjects() {
-        subjectString = sharedPreferences.getString("subjects", null);
-        if(subjectString != null) {
-            String[] subjectArray = subjectString.split(";");
-            subjects = new ArrayList<>(Arrays.asList(subjectArray));
-        } else {
-            subjects = new ArrayList<>();
-        }
+        subjectString = sharedPreferences.getString("subjects", "");
+        subjects = stringToList(subjectString, subjectRegex);
         return subjects;
     }
 
     public void saveSubjects() {
-        StringBuilder sb = new StringBuilder();
-        for(String s : subjects) {
-            sb.append(s);
-            sb.append(";");
-        }
-        subjectString = sb.toString();
+        subjectString = listToString(subjects, subjectRegex);
         prefEdit.putString("subjects", subjectString);
         prefEdit.apply();
+    }
+
+    public String listToString(List<String> list, String regex) {
+        StringBuilder stringBuilder = new StringBuilder();
+        for(String s : list) {
+            stringBuilder.append(s);
+            stringBuilder.append(regex);
+        }
+        return stringBuilder.toString();
+    }
+
+    public List<String> stringToList(String string, String regex) {
+        if(!string.equalsIgnoreCase("")) {
+            String[] stringArray = string.split(regex);
+            return new ArrayList<>(Arrays.asList(stringArray));
+        } else {
+            return new ArrayList<>();
+        }
     }
 
 }

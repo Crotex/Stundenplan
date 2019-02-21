@@ -29,6 +29,7 @@ import android.widget.TextView;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -133,7 +134,10 @@ public class MainSchedule
             i.putExtra("day", getDayNr());
             openActivity(i, ScheduleEdit.class);
         } else if (id == R.id.homeworkAdd) {
-            //Open HomworkAdd Activity
+            //Open HomeworkAdd Activity
+            ArrayList<String> sub = new ArrayList<>(getSubjects());
+            i.putStringArrayListExtra("subjects", sub);
+            openActivity(i, HomeworkAddActivity.class);
         } else if (id == R.id.homeworkOverview) {
             //Open HomeworkOverview Fragment
             openFragment(new HomeworkOverviewFragment());
@@ -180,7 +184,7 @@ public class MainSchedule
     }
 
     public boolean isWeekend() {
-        if(getDayNr() > 6) {
+        if(getDayNr() >= 6) {
             return true;
         }
         return false;
@@ -192,7 +196,8 @@ public class MainSchedule
     }
 
     public int getDayNr() {
-        dayNr = Integer.parseInt(new SimpleDateFormat("u").format(new Date()));
+        Calendar c = Calendar.getInstance();
+        dayNr = c.get(Calendar.DAY_OF_WEEK) - 1;
         if(dayNr > 5) {
             dayNr = 1;
         }
@@ -226,7 +231,7 @@ public class MainSchedule
 
     public void addHomework(String subject, String description, String dueTo) {
         String homeworkSubstring = subject + homeworkSubregex + description + homeworkSubregex + dueTo;
-        homework.add(homeworkSubstring);
+        getHomework().add(homeworkSubstring);
         saveHomework();
     }
 

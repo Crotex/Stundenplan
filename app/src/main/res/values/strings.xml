@@ -33,6 +33,15 @@
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="action_settings">Settings</string>
 
+    <string name="select_subject">Wähle ein Fach aus</string>
+    <string name="select_date">Wähle aus, bis wann die Hausaufgabe gemacht werden muss</string>
+    <string name="select_date_hint">Wähle ein Datum aus</string>
+    <string name="open_datePicker">Datum Wählen</string>
+    <string name="homework_desc_hint">Trage hier die Hausaufgabe ein (z.B. S.220 Nr.17)</string>
+    <string name="save">Speichern</string>
+    <string name="error_not_filled">Bitte fülle alle Felder aus!</string>
+
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_settings">Einstellungen</string>

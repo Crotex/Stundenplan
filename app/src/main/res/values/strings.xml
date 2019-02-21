@@ -40,6 +40,8 @@
     <string name="homework_desc_hint">Trage hier die Hausaufgabe ein (z.B. S.220 Nr.17)</string>
     <string name="save">Speichern</string>
     <string name="error_not_filled">Bitte fülle alle Felder aus!</string>
+    <string name="error_char_not_allowed">Das Zeichen ";" ist nicht erlaubt!</string>
+    <string name="homework_success">Hausaufgabe wurde erfolgreich hinzugefügt!</string>
 
 
     <!-- TODO: Remove or change this placeholder text -->

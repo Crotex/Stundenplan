@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.InputFilter;
+import android.text.Spanned;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +14,7 @@ import android.widget.EditText;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class ScheduleEdit extends AppCompatActivity {
 
@@ -89,6 +92,19 @@ public class ScheduleEdit extends AppCompatActivity {
     }
 
     private void buildTable(TableLayout tableLayout) {
+        InputFilter filter = new InputFilter() {
+            String blockedCharacters = ";";
+
+            @Override
+            public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
+                if (source != null && blockedCharacters.contains(("" + source))) {
+                    Toast.makeText(ScheduleEdit.this, getString(R.string.error_char_not_allowed), Toast.LENGTH_SHORT).show();
+                    return "";
+                }
+                return null;
+            }
+        };
+
         for (int i = 1; i <= 11; i++) {
             TableRow row = new TableRow(this);
             row.setLayoutParams(new TableRow.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
@@ -102,6 +118,7 @@ public class ScheduleEdit extends AppCompatActivity {
             EditText sub = new EditText(this);
             sub.setId(20+i);
             sub.setHint("Fach" + i);
+            sub.setFilters(new InputFilter[] {filter});
             subject = sharedPreferences.getString(days[day] + i + "s", "");
             if(subject.equalsIgnoreCase("-")) {
                 sub.setText("");
@@ -116,6 +133,7 @@ public class ScheduleEdit extends AppCompatActivity {
             EditText room = new EditText(this);
             room.setId(40+i);
             room.setHint("Raum" + i);
+            room.setFilters(new InputFilter[] {filter});
             rooms = sharedPreferences.getString(days[day] + i + "r", "");
             if(rooms.equalsIgnoreCase("-")) {
                 room.setText("");

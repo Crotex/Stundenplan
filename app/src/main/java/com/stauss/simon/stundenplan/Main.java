@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -15,25 +14,15 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.ArraySet;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TableLayout;
-import android.widget.TableRow;
 import android.widget.TextView;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 public class Main
         extends
@@ -141,7 +130,7 @@ public class Main
             //Open HomeworkAdd Activity
             ArrayList<String> sub = new ArrayList<>(getSubjects());
             i.putStringArrayListExtra("subjects", sub);
-            openActivity(i, HomeworkAddActivity.class);
+            openActivity(i, HomeworkAdd.class);
         } else if (id == R.id.homeworkOverview) {
             //Open HomeworkOverview Fragment
             openFragment(homeworkOverview);

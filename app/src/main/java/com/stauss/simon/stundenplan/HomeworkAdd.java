@@ -8,7 +8,9 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.InputFilter;
 import android.text.InputType;
+import android.text.Spanned;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -19,7 +21,7 @@ import android.widget.Toast;
 import java.util.Calendar;
 import java.util.List;
 
-public class HomeworkAddActivity extends AppCompatActivity {
+public class HomeworkAdd extends AppCompatActivity {
 
     static EditText dateText;
     EditText description;
@@ -50,15 +52,31 @@ public class HomeworkAddActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(allInformationGiven()) {
                     getMain().addHomework(subjectSpinner.getSelectedItem().toString(), description.getText().toString(), dateText.getText().toString());
+                    Toast.makeText(HomeworkAdd.this, getString(R.string.homework_success), Toast.LENGTH_SHORT).show();
                     Intent i = new Intent();
                     i.setClass(getApplicationContext(), Main.class);
                     startActivity(i);
                 } else {
-                    Toast.makeText(HomeworkAddActivity.this, getString(R.string.error_not_filled), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(HomeworkAdd.this, getString(R.string.error_not_filled), Toast.LENGTH_SHORT).show();
                 }
             }
         });
+
+
+        InputFilter filter = new InputFilter() {
+            String blockedCharacters = ";";
+
+            @Override
+            public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
+                if (source != null && blockedCharacters.contains(("" + source))) {
+                    Toast.makeText(HomeworkAdd.this, getString(R.string.error_char_not_allowed), Toast.LENGTH_SHORT).show();
+                    return "";
+                }
+                return null;
+            }
+        };
         description = findViewById(R.id.homeworkDescription);
+        description.setFilters(new InputFilter[] {filter});
     }
 
     private void initSpinner() {

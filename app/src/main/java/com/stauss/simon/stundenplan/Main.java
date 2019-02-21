@@ -35,7 +35,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class MainSchedule
+public class Main
         extends
             AppCompatActivity
         implements
@@ -57,8 +57,12 @@ public class MainSchedule
 
     List<String> homework;
     String homeworkString;
-    String homeworkRegex = "||";
-    String homeworkSubregex = "|";
+    String homeworkRegex = ";;";
+    String homeworkSubregex = ";";
+
+    ScheduleTodayFragment scheduleToday = new ScheduleTodayFragment();
+    ScheduleOverviewFragment scheduleOverview = new ScheduleOverviewFragment();
+    HomeworkOverviewFragment homeworkOverview = new HomeworkOverviewFragment();
 
     @SuppressLint("CommitPrefEdits")
     @Override
@@ -96,8 +100,8 @@ public class MainSchedule
 
         homeworkString = sharedPreferences.getString("homework", "");
         homework = getHomework();
-        
-        openFragment(new ScheduleTodayFragment());
+
+        openFragment(scheduleToday);
     }
 
     @Override
@@ -125,10 +129,10 @@ public class MainSchedule
 
         if (id == R.id.scheduleToday) {
             //Open today fragment
-            openFragment(new ScheduleTodayFragment());
+            openFragment(scheduleToday);
         } else if (id == R.id.scheduleOverview) {
             //Open Overview Fragment
-            openFragment(new ScheduleOverviewFragment());
+            openFragment(scheduleOverview);
         } else if (id == R.id.scheduleEdit) {
             //Open ScheduleEdit Activity
             i.putExtra("day", getDayNr());
@@ -140,7 +144,7 @@ public class MainSchedule
             openActivity(i, HomeworkAddActivity.class);
         } else if (id == R.id.homeworkOverview) {
             //Open HomeworkOverview Fragment
-            openFragment(new HomeworkOverviewFragment());
+            openFragment(homeworkOverview);
         } else if(id == R.id.settings) {
             //Open Settings Activity
             openActivity(i, SettingsActivity.class);
@@ -160,7 +164,6 @@ public class MainSchedule
         Intent i = new Intent();
         i.setClass(this, FirstLaunch.class);
         startActivity(i);
-
     }
 
     private void openActivity(Intent i, Class c) {
@@ -184,10 +187,7 @@ public class MainSchedule
     }
 
     public boolean isWeekend() {
-        if(getDayNr() >= 6) {
-            return true;
-        }
-        return false;
+        return getDayNr() >= 6;
     }
 
     public String getDay() {

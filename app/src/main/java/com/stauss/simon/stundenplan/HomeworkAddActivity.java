@@ -2,7 +2,6 @@ package com.stauss.simon.stundenplan;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
-import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -10,12 +9,9 @@ import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.InputType;
-import android.text.format.DateFormat;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -55,7 +51,7 @@ public class HomeworkAddActivity extends AppCompatActivity {
                 if(allInformationGiven()) {
                     getMain().addHomework(subjectSpinner.getSelectedItem().toString(), description.getText().toString(), dateText.getText().toString());
                     Intent i = new Intent();
-                    i.setClass(getApplicationContext(), MainSchedule.class);
+                    i.setClass(getApplicationContext(), Main.class);
                     startActivity(i);
                 } else {
                     Toast.makeText(HomeworkAddActivity.this, getString(R.string.error_not_filled), Toast.LENGTH_SHORT).show();
@@ -82,8 +78,8 @@ public class HomeworkAddActivity extends AppCompatActivity {
         return false;
     }
 
-    private MainSchedule getMain() {
-        MainSchedule main = new MainSchedule();
+    private Main getMain() {
+        Main main = new Main();
         main.sharedPreferences = getSharedPreferences(getString(R.string.preference_key), MODE_PRIVATE);
         main.prefEdit = main.sharedPreferences.edit();
         return main;

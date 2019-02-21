@@ -97,8 +97,8 @@ public class ScheduleTodayFragment extends Fragment {
         void onFragmentInteraction(Uri uri);
     }
 
-    private MainSchedule getMain() {
-        return new MainSchedule();
+    private Main getMain() {
+        return new Main();
     }
 
     private void buildSchedule(TableLayout tableLayout) {

@@ -56,7 +56,7 @@ public class ScheduleEdit extends AppCompatActivity {
                         i.putExtra("day", day + 1);
                         openActivity(i, ScheduleEdit.class);
                     } else {
-                        openActivity(i, MainSchedule.class);
+                        openActivity(i, Main.class);
                     }
 
                 }
@@ -82,7 +82,7 @@ public class ScheduleEdit extends AppCompatActivity {
             public void onClick(View v) {
                 getInput();
                 if(prefEdit.commit()) {
-                    openActivity(new Intent(), MainSchedule.class);
+                    openActivity(new Intent(), Main.class);
                 }
             }
         });
@@ -162,8 +162,8 @@ public class ScheduleEdit extends AppCompatActivity {
         startActivity(i);
     }
 
-    private MainSchedule getMain() {
-        MainSchedule main = new MainSchedule();
+    private Main getMain() {
+        Main main = new Main();
         main.sharedPreferences = sharedPreferences;
         main.prefEdit = prefEdit;
         return main;

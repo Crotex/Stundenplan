@@ -56,7 +56,7 @@ public class ScheduleTodayFragment extends Fragment {
             String date = new SimpleDateFormat("EEEE, dd. MMMM yyyy").format(new Date());
             text.setText("Heute, " + date + ", hast du folgende Fächer:" );
         } else {
-            text.setText("Am folgenden Montag (TODO: DATUM) hast du folgende Fächer:");
+            text.setText("Am folgenden Montag hast du folgende Fächer:");
         }
 
         buildSchedule((TableLayout) v.findViewById(R.id.table));

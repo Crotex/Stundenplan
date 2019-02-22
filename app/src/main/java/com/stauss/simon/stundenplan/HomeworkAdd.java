@@ -64,7 +64,7 @@ public class HomeworkAdd extends AppCompatActivity {
 
 
         InputFilter filter = new InputFilter() {
-            String blockedCharacters = ";";
+            String blockedCharacters = getString(R.string.blocked_characters);
 
             @Override
             public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
@@ -90,10 +90,7 @@ public class HomeworkAdd extends AppCompatActivity {
     }
 
     private boolean allInformationGiven() {
-        if(datePicked && !description.getText().toString().equalsIgnoreCase("")) {
-            return true;
-        }
-        return false;
+        return datePicked && !description.getText().toString().equalsIgnoreCase("");
     }
 
     private Main getMain() {

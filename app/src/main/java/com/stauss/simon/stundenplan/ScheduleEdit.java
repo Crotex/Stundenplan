@@ -98,7 +98,6 @@ public class ScheduleEdit extends AppCompatActivity {
             @Override
             public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
                 if (source != null && blockedCharacters.contains(("" + source))) {
-                    Toast.makeText(ScheduleEdit.this, getString(R.string.error_char_not_allowed), Toast.LENGTH_SHORT).show();
                     return "";
                 }
                 return null;

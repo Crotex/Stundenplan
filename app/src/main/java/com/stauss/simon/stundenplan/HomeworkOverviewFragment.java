@@ -4,6 +4,8 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +22,8 @@ import android.view.ViewGroup;
 public class HomeworkOverviewFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
+
+    RecyclerView homeworkList;
 
     public HomeworkOverviewFragment() {
         // Required empty public constructor
@@ -45,15 +49,15 @@ public class HomeworkOverviewFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_homework_overview, container, false);
+        if(getMain().getHomework().size() == 0) {
+            v.findViewById(R.id.noHomework).setVisibility(View.VISIBLE);
+        } else {
+            homeworkList = v.findViewById(R.id.list);
+            homeworkList.setLayoutManager(new LinearLayoutManager(getContext()));
+            homeworkList.setAdapter(new ListAdapter(getMain().getHomework()));
+        }
         // Inflate the layout for this fragment
         return v;
-    }
-
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
     }
 
     @Override
@@ -84,7 +88,13 @@ public class HomeworkOverviewFragment extends Fragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    private Main getMain() {
+        Main main = new Main();
+        main.sharedPreferences = getActivity().getSharedPreferences(getString(R.string.preference_key), Context.MODE_PRIVATE);
+        main.prefEdit = main.sharedPreferences.edit();
+        return main;
     }
 }

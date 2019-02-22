@@ -44,6 +44,9 @@
     <string name="error_char_not_allowed">Das Zeichen ";" ist nicht erlaubt!</string>
     <string name="homework_success">Hausaufgabe wurde erfolgreich hinzugefügt!</string>
 
+    <string name="homework_done">Erledigt?</string>
+    <string name="no_homework">Du hast gerade keine Hausaufgaben!</string>
+
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

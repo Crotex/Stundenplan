@@ -29,7 +29,7 @@
 
             <Space
                 android:layout_width="match_parent"
-                android:layout_height="20dp" />
+                android:layout_height="50dp" />
 
             <TextView
                 android:id="@+id/textView11"
@@ -65,7 +65,7 @@
 
             <Space
                 android:layout_width="match_parent"
-                android:layout_height="20dp" />
+                android:layout_height="50dp" />
 
             <EditText
                 android:id="@+id/homeworkDescription"

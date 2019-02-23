@@ -53,8 +53,8 @@ public class HomeworkAdd extends AppCompatActivity {
                 if(allInformationGiven()) {
                     getMain().addHomework(subjectSpinner.getSelectedItem().toString(), description.getText().toString(), dateText.getText().toString());
                     Toast.makeText(HomeworkAdd.this, getString(R.string.homework_success), Toast.LENGTH_SHORT).show();
-                    Intent i = new Intent();
-                    i.setClass(getApplicationContext(), Main.class);
+                    Intent i = new Intent(getApplicationContext(), Main.class);
+                    i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                     startActivity(i);
                 } else {
                     Toast.makeText(HomeworkAdd.this, getString(R.string.error_not_filled), Toast.LENGTH_SHORT).show();

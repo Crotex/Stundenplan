@@ -80,6 +80,11 @@ public class Main
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        if(getHomework().size() == 0) {
+            MenuItem homeworkOverview = navigationView.getMenu().findItem(R.id.homeworkOverview);
+            homeworkOverview.setEnabled(false);
+        }
+
         TextView name = navigationView.getHeaderView(0).findViewById(R.id.userName);
         name.setText(sharedPreferences.getString("userName", getString(R.string.userName)));
 

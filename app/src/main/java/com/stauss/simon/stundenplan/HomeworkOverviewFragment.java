@@ -3,6 +3,7 @@ package com.stauss.simon.stundenplan;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -106,14 +107,9 @@ public class HomeworkOverviewFragment extends Fragment {
             }
         });
 
-        if(homework.size() == 0) {
-            v.findViewById(R.id.noHomework).setVisibility(View.VISIBLE);
-            v.findViewById(R.id.deleteHomework).setVisibility(View.INVISIBLE);
-        } else {
-            homeworkList = v.findViewById(R.id.list);
-            homeworkList.setLayoutManager(new LinearLayoutManager(getContext()));
-            homeworkList.setAdapter(new ListAdapter(homework));
-        }
+        homeworkList = v.findViewById(R.id.list);
+        homeworkList.setLayoutManager(new LinearLayoutManager(getContext()));
+        homeworkList.setAdapter(new ListAdapter(homework));
 
         v.findViewById(R.id.deleteHomework).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -125,7 +121,9 @@ public class HomeworkOverviewFragment extends Fragment {
                             case DialogInterface.BUTTON_POSITIVE:
                                 getMain().clearHomework();
                                 Toast.makeText(getContext(), R.string.homework_cleared, Toast.LENGTH_SHORT).show();
-                                reloadFragment();
+                                Intent i = new Intent(getContext(), Main.class);
+                                i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                                startActivity(i);
                                 break;
 
                             case DialogInterface.BUTTON_NEGATIVE:
@@ -140,10 +138,6 @@ public class HomeworkOverviewFragment extends Fragment {
 
             }
         });
-
-
-
-
 
         // Inflate the layout for this fragment
         return v;

@@ -14,7 +14,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
@@ -89,9 +88,6 @@ public class Main
 
         homeworkString = sharedPreferences.getString("homework", "");
         homework = getHomework();
-
-        //prefEdit.putString("homework", "");
-        //prefEdit.commit();
 
         openFragment(scheduleToday);
     }
@@ -200,12 +196,12 @@ public class Main
         return days;
     }
 
+
+
     public void addSubject(String subject) {
         if(!getSubjects().contains(subject)) {
             subjects.add(subject);
             saveSubjects();
-        } else {
-            Log.d("", "Fach " + subject + " bereits enthalten!");
         }
     }
 
@@ -220,6 +216,8 @@ public class Main
         prefEdit.putString("subjects", subjectString);
         prefEdit.apply();
     }
+
+
 
     public void addHomework(String subject, String description, String dueTo) {
         String homeworkSubstring = subject + homeworkSubregex + description + homeworkSubregex + dueTo;
@@ -236,6 +234,11 @@ public class Main
     public void saveHomework() {
         homeworkString = listToString(homework, homeworkRegex);
         prefEdit.putString("homework", homeworkString);
+        prefEdit.commit();
+    }
+
+    public void clearHomework() {
+        prefEdit.putString("homework", "");
         prefEdit.commit();
     }
 

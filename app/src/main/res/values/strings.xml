@@ -46,6 +46,8 @@
 
     <string name="homework_done">Erledigt?</string>
     <string name="no_homework">Du hast gerade keine Hausaufgaben!</string>
+    <string name="ask_clear_homework">Willst du wirklich alle Hausaufgaben löschen?</string>
+    <string name="homework_cleared">Alle Hausaufgaben wurden gelöscht!</string>
 
 
     <!-- TODO: Remove or change this placeholder text -->

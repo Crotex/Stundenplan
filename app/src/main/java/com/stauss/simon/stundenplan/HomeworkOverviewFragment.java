@@ -1,14 +1,18 @@
 package com.stauss.simon.stundenplan;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -61,11 +65,11 @@ public class HomeworkOverviewFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_homework_overview, container, false);
 
         homework = getMain().getHomework();
+
         Collections.sort(homework, new Comparator<String>() {
             @Override
             public int compare(String h1, String h2) {
@@ -104,11 +108,43 @@ public class HomeworkOverviewFragment extends Fragment {
 
         if(homework.size() == 0) {
             v.findViewById(R.id.noHomework).setVisibility(View.VISIBLE);
+            v.findViewById(R.id.deleteHomework).setVisibility(View.INVISIBLE);
         } else {
             homeworkList = v.findViewById(R.id.list);
             homeworkList.setLayoutManager(new LinearLayoutManager(getContext()));
             homeworkList.setAdapter(new ListAdapter(homework));
         }
+
+        v.findViewById(R.id.deleteHomework).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which){
+                            case DialogInterface.BUTTON_POSITIVE:
+                                getMain().clearHomework();
+                                Toast.makeText(getContext(), R.string.homework_cleared, Toast.LENGTH_SHORT).show();
+                                reloadFragment();
+                                break;
+
+                            case DialogInterface.BUTTON_NEGATIVE:
+                                break;
+                        }
+                    }
+                };
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setMessage(R.string.ask_clear_homework).setPositiveButton("Ja", dialogClickListener)
+                        .setNegativeButton("Nein", dialogClickListener).show();
+
+            }
+        });
+
+
+
+
+
         // Inflate the layout for this fragment
         return v;
     }
@@ -149,5 +185,10 @@ public class HomeworkOverviewFragment extends Fragment {
         main.sharedPreferences = getActivity().getSharedPreferences(getString(R.string.preference_key), Context.MODE_PRIVATE);
         main.prefEdit = main.sharedPreferences.edit();
         return main;
+    }
+
+    private void reloadFragment() {
+        FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+        ft.detach(this).attach(this).commit();
     }
 }

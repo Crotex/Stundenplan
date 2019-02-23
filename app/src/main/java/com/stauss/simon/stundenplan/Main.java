@@ -217,6 +217,11 @@ public class Main
         prefEdit.apply();
     }
 
+    public void clearSubjects() {
+        prefEdit.putString("subjects", "");
+        prefEdit.commit();
+    }
+
 
 
     public void addHomework(String subject, String description, String dueTo) {

@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 public class ScheduleTodayFragment extends Fragment {
 
@@ -53,7 +54,7 @@ public class ScheduleTodayFragment extends Fragment {
 
         TextView text = v.findViewById(R.id.textView);
         if(!getMain().isWeekend()) {
-            String date = new SimpleDateFormat("EEEE, dd. MMMM yyyy").format(new Date());
+            String date = new SimpleDateFormat("EEEE, dd. MMMM yyyy", Locale.GERMANY).format(new Date());
             text.setText("Heute, " + date + ", hast du folgende Fächer:" );
         } else {
             text.setText("Am folgenden Montag hast du folgende Fächer:");

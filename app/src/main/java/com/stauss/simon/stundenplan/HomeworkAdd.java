@@ -115,7 +115,18 @@ public class HomeworkAdd extends AppCompatActivity {
 
         @Override
         public void onDateSet(android.widget.DatePicker view, int year, int month, int dayOfMonth) {
-            dateText.setText(dayOfMonth+ "." + (month + 1) + "." + year);
+            String date = "";
+            if(dayOfMonth < 10) {
+                date = "0";
+            }
+            date += dayOfMonth + ".";
+            if(month < 9) {
+                date += "0";
+            }
+            date += (month + 1) + "." + year;
+            // 02.02.2019
+            // 12.02.2019
+            dateText.setText(date);
             datePicked = true;
         }
     }

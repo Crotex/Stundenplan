@@ -90,6 +90,9 @@ public class Main
         homeworkString = sharedPreferences.getString("homework", "");
         homework = getHomework();
 
+        //prefEdit.putString("homework", "");
+        //prefEdit.commit();
+
         openFragment(scheduleToday);
     }
 

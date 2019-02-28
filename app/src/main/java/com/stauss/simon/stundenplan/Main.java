@@ -18,10 +18,17 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class Main
         extends
@@ -32,8 +39,8 @@ public class Main
             ScheduleTodayFragment.OnFragmentInteractionListener,
             HomeworkOverviewFragment.OnFragmentInteractionListener {
 
-    SharedPreferences sharedPreferences;
-    SharedPreferences.Editor prefEdit;
+    static SharedPreferences sharedPreferences;
+    static SharedPreferences.Editor prefEdit;
 
     public String day;
     String[] days = {"", "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag"};
@@ -47,10 +54,15 @@ public class Main
     String homeworkString;
     String homeworkRegex = ";;";
     String homeworkSubregex = ";";
+    int homeworkCount;
+    boolean sortBySubject;
+
+    static MenuItem homeworkOverviewItem;
 
     ScheduleTodayFragment scheduleToday = new ScheduleTodayFragment();
     ScheduleOverviewFragment scheduleOverview = new ScheduleOverviewFragment();
     HomeworkOverviewFragment homeworkOverview = new HomeworkOverviewFragment();
+
 
     @SuppressLint("CommitPrefEdits")
     @Override
@@ -80,9 +92,10 @@ public class Main
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        homeworkOverviewItem = navigationView.getMenu().findItem(R.id.homeworkOverview);
+
         if(getHomework().size() == 0) {
-            MenuItem homeworkOverview = navigationView.getMenu().findItem(R.id.homeworkOverview);
-            homeworkOverview.setEnabled(false);
+            homeworkOverviewItem.setEnabled(false);
         }
 
         TextView name = navigationView.getHeaderView(0).findViewById(R.id.userName);
@@ -91,6 +104,7 @@ public class Main
         subjectString = sharedPreferences.getString("subjects", "");
         subjects = getSubjects();
 
+        homeworkCount = getHomeworkCount();
         homeworkString = sharedPreferences.getString("homework", "");
         homework = getHomework();
 
@@ -228,11 +242,13 @@ public class Main
     }
 
 
-
     public void addHomework(String subject, String description, String dueTo) {
         String homeworkSubstring = subject + homeworkSubregex + description + homeworkSubregex + dueTo;
         getHomework().add(homeworkSubstring);
-        saveHomework();
+        homeworkCount++;
+        prefEdit.putInt("homeworkCount", homeworkCount);
+        sortHomework();
+        saveHomework(homework);
     }
 
     public List<String> getHomework() {
@@ -241,8 +257,19 @@ public class Main
         return homework;
     }
 
-    public void saveHomework() {
-        homeworkString = listToString(homework, homeworkRegex);
+    public int getHomeworkCount() {
+        homeworkCount = sharedPreferences.getInt("homeworkCount", 0);
+        return homeworkCount;
+    }
+
+    public void saveHomework(List<String> list) {
+        if(list.size() == 0) {
+            homeworkString = "";
+            homeworkOverviewItem.setEnabled(false);
+            openFragment(scheduleToday);
+        } else {
+            homeworkString = listToString(list, homeworkRegex);
+        }
         prefEdit.putString("homework", homeworkString);
         prefEdit.commit();
     }
@@ -250,6 +277,44 @@ public class Main
     public void clearHomework() {
         prefEdit.putString("homework", "");
         prefEdit.commit();
+    }
+
+    public void sortHomework() {
+        Collections.sort(homework, new Comparator<String>() {
+            @Override
+            public int compare(String h1, String h2) {
+                // -1 - less than,
+                // 1 - greater than,
+                // 0 - equal,
+                // all inversed for descending
+
+                String[] part1 = h1.split(homeworkSubregex);
+                String[] part2 = h2.split(homeworkSubregex);
+
+                if(!sortBySubject) {
+                    Date date1, date2;
+                    DateFormat format = new SimpleDateFormat("dd.MM.yyyy", Locale.GERMANY);
+
+                    try {
+                        date1 = format.parse(part1[2]);
+                        date2 = format.parse(part2[2]);
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                        return 0;
+                    }
+
+                    if(date1.after(date2)) {
+                        return 1;
+                    } else if (date1.before(date2)){
+                        return -1;
+                    } else {
+                        return 0;
+                    }
+                } else{
+                    return part1[0].compareTo(part2[0]);
+                }
+            }
+        });
     }
 
     public String listToString(List<String> list, String regex) {

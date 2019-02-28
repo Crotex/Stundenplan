@@ -94,10 +94,7 @@ public class HomeworkAdd extends AppCompatActivity {
     }
 
     private Main getMain() {
-        Main main = new Main();
-        main.sharedPreferences = getSharedPreferences(getString(R.string.preference_key), MODE_PRIVATE);
-        main.prefEdit = main.sharedPreferences.edit();
-        return main;
+        return new Main();
     }
 
     public static class DatePicker extends DialogFragment implements DatePickerDialog.OnDateSetListener {

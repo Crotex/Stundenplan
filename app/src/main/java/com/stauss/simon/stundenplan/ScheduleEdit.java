@@ -180,9 +180,6 @@ public class ScheduleEdit extends AppCompatActivity {
     }
 
     private Main getMain() {
-        Main main = new Main();
-        main.sharedPreferences = sharedPreferences;
-        main.prefEdit = prefEdit;
-        return main;
+        return new Main();
     }
 }

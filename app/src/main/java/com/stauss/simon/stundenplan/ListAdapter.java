@@ -14,11 +14,11 @@ import java.util.List;
 
 public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView subject;
-        public TextView dueDate;
-        public TextView description;
-        public CheckBox done;
+    public class ViewHolder extends RecyclerView.ViewHolder {
+        TextView subject;
+        TextView dueDate;
+        TextView description;
+        CheckBox done;
 
         public ViewHolder(View v) {
             super(v);
@@ -26,11 +26,17 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
             dueDate = v.findViewById(R.id.dueDate);
             description = v.findViewById(R.id.description);
             done = v.findViewById(R.id.done);
+            done.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    removeItemAt(getAdapterPosition());
+                }
+            });
         }
     }
 
     private List<String> homework;
-    String subject, date, description;
+    private String subject, date, description;
 
     public ListAdapter(List<String> data) {
         homework = data;
@@ -59,16 +65,6 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
 
         TextView desc = viewHolder.description;
         desc.setText(description);
-
-        CheckBox done = viewHolder.done;
-        done.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked) {
-                    //Delete Homework
-                }
-            }
-        });
     }
 
     @Override
@@ -86,5 +82,12 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
         subject = sublist.get(0);
         description = sublist.get(1);
         date = sublist.get(2);
+    }
+
+    private void removeItemAt(int position) {
+        homework.remove(position);
+        getMain().saveHomework(homework);
+        notifyItemRemoved(position);
+        notifyItemRangeChanged(position, homework.size());
     }
 }

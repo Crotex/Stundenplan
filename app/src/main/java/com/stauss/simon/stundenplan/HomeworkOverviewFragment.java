@@ -13,6 +13,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.Toast;
 
 import java.text.DateFormat;
@@ -41,8 +42,6 @@ public class HomeworkOverviewFragment extends Fragment {
 
     List<String> homework;
 
-    boolean sortBySubject;
-
     public HomeworkOverviewFragment() {
         // Required empty public constructor
     }
@@ -61,8 +60,6 @@ public class HomeworkOverviewFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        sortBySubject = false;
     }
 
     @Override
@@ -70,42 +67,6 @@ public class HomeworkOverviewFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_homework_overview, container, false);
 
         homework = getMain().getHomework();
-
-        Collections.sort(homework, new Comparator<String>() {
-            @Override
-            public int compare(String h1, String h2) {
-                // -1 - less than,
-                // 1 - greater than,
-                // 0 - equal,
-                // all inversed for descending
-
-                String[] part1 = h1.split(getMain().homeworkSubregex);
-                String[] part2 = h2.split(getMain().homeworkSubregex);
-
-                if(!sortBySubject) {
-                    Date date1, date2;
-                    DateFormat format = new SimpleDateFormat("dd.MM.yyyy", Locale.GERMANY);
-
-                    try {
-                        date1 = format.parse(part1[2]);
-                        date2 = format.parse(part2[2]);
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                        return 0;
-                    }
-
-                    if(date1.after(date2)) {
-                        return 1;
-                    } else if (date1.before(date2)){
-                        return -1;
-                    } else {
-                        return 0;
-                    }
-                } else{
-                    return part1[0].compareTo(part2[0]);
-                }
-            }
-        });
 
         homeworkList = v.findViewById(R.id.list);
         homeworkList.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -175,14 +136,6 @@ public class HomeworkOverviewFragment extends Fragment {
     }
 
     private Main getMain() {
-        Main main = new Main();
-        main.sharedPreferences = getActivity().getSharedPreferences(getString(R.string.preference_key), Context.MODE_PRIVATE);
-        main.prefEdit = main.sharedPreferences.edit();
-        return main;
-    }
-
-    private void reloadFragment() {
-        FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-        ft.detach(this).attach(this).commit();
+        return new Main();
     }
 }

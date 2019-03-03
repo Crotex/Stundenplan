@@ -266,10 +266,11 @@ public class Main
         if(list.size() == 0) {
             homeworkString = "";
             homeworkOverviewItem.setEnabled(false);
-            openFragment(scheduleToday);
+            //Do something
         } else {
             homeworkString = listToString(list, homeworkRegex);
         }
+
         prefEdit.putString("homework", homeworkString);
         prefEdit.commit();
     }

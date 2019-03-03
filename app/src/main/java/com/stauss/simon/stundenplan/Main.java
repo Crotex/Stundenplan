@@ -39,6 +39,7 @@ public class Main
             ScheduleTodayFragment.OnFragmentInteractionListener,
             HomeworkOverviewFragment.OnFragmentInteractionListener {
 
+
     static SharedPreferences sharedPreferences;
     static SharedPreferences.Editor prefEdit;
 
@@ -198,7 +199,11 @@ public class Main
     }
 
     public String getDay() {
-        day = days[getDayNr()];
+        if(isWeekend()) {
+            day = days[1];
+        } else {
+            day = days[getDayNr()];
+        }
         return day;
     }
 

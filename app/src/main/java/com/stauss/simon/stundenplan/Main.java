@@ -194,7 +194,7 @@ public class Main
     }
 
     public boolean isWeekend() {
-        return getDayNr() >= 6;
+        return getDayNr() >= 6 || getDayNr() == 0;
     }
 
     public String getDay() {
@@ -214,7 +214,6 @@ public class Main
     public String[] getWeek() {
         return days;
     }
-
 
 
     public void addSubject(String subject) {

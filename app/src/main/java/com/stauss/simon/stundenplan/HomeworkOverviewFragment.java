@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
@@ -39,7 +40,7 @@ public class HomeworkOverviewFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
 
     RecyclerView homeworkList;
-
+    FloatingActionButton deleteHomework;
     List<String> homework;
 
     public HomeworkOverviewFragment() {
@@ -72,7 +73,8 @@ public class HomeworkOverviewFragment extends Fragment {
         homeworkList.setLayoutManager(new LinearLayoutManager(getContext()));
         homeworkList.setAdapter(new ListAdapter(homework));
 
-        v.findViewById(R.id.deleteHomework).setOnClickListener(new View.OnClickListener() {
+        deleteHomework = v.findViewById(R.id.deleteHomework);
+        deleteHomework.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {

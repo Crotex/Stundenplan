@@ -16,6 +16,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 import java.text.DateFormat;
@@ -42,6 +43,8 @@ public class Main
 
     static SharedPreferences sharedPreferences;
     static SharedPreferences.Editor prefEdit;
+
+    static FragmentManager fragmentManager;
 
     public String day;
     String[] days = {"", "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag"};
@@ -75,6 +78,8 @@ public class Main
 
         sharedPreferences = getSharedPreferences(getString(R.string.preference_key), MODE_PRIVATE);
         prefEdit = sharedPreferences.edit();
+
+        fragmentManager = getSupportFragmentManager();
 
         boolean firstLaunch = sharedPreferences.getBoolean("firstLaunch", true);
         if(firstLaunch) {
@@ -181,7 +186,6 @@ public class Main
     }
 
     private void openFragment(Fragment f) {
-        FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
         fragmentTransaction.replace(R.id.container, f);
@@ -270,7 +274,7 @@ public class Main
         if(list.size() == 0) {
             homeworkString = "";
             homeworkOverviewItem.setEnabled(false);
-            //Do something
+            openFragment(scheduleToday);
         } else {
             homeworkString = listToString(list, homeworkRegex);
         }

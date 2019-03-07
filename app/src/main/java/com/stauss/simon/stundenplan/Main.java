@@ -41,8 +41,8 @@ public class Main
             HomeworkOverviewFragment.OnFragmentInteractionListener {
 
 
-    static SharedPreferences sharedPreferences;
-    static SharedPreferences.Editor prefEdit;
+    public static SharedPreferences sharedPreferences;
+    public static SharedPreferences.Editor prefEdit;
 
     static FragmentManager fragmentManager;
 
@@ -326,6 +326,11 @@ public class Main
         });
     }
 
+    public void resetSchedule() {
+
+    }
+
+
     public String listToString(List<String> list, String regex) {
         StringBuilder stringBuilder = new StringBuilder();
         for(String s : list) {
@@ -342,6 +347,15 @@ public class Main
         } else {
             return new ArrayList<>();
         }
+    }
+
+
+    public SharedPreferences getSharedPreferences() {
+        return sharedPreferences;
+    }
+
+    public SharedPreferences.Editor getPrefEdit() {
+        return prefEdit;
     }
 
 }

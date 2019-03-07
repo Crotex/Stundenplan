@@ -11,6 +11,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -144,9 +145,11 @@ public class Main
         if (id == R.id.scheduleToday) {
             //Open today fragment
             openFragment(scheduleToday);
+            setActionBarTitle(getString(R.string.schedule));
         } else if (id == R.id.scheduleOverview) {
             //Open Overview Fragment
             openFragment(scheduleOverview);
+            setActionBarTitle(getString(R.string.schedule_overview));
         } else if (id == R.id.scheduleEdit) {
             //Open ScheduleEdit Activity
             i.putExtra("day", getDayNr());
@@ -159,6 +162,7 @@ public class Main
         } else if (id == R.id.homeworkOverview) {
             //Open HomeworkOverview Fragment
             openFragment(homeworkOverview);
+            setActionBarTitle(getString(R.string.homework_overview));
         } else if(id == R.id.settings) {
             //Open Settings Activity
             openActivity(i, SettingsActivity.class);
@@ -334,6 +338,10 @@ public class Main
 
     public void refreshName() {
         userName.setText(sharedPreferences.getString("userName", ""));
+    }
+
+    public void setActionBarTitle(String title) {
+        getSupportActionBar().setTitle(title);
     }
 
     public String listToString(List<String> list, String regex) {

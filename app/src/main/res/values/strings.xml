@@ -3,7 +3,10 @@
 
     <string name="app_name">Stundenplan</string>
     <string name="schedule">Stundenplan</string>
+    <string name="schedule_overview">Stundenplanübersicht</string>
+    <string name="schedule_edit">Stundenplan bearbeiten</string>
     <string name="homework">Hausaufgaben</string>
+    <string name="homework_overview">Hausaufgabenübersicht</string>
 
     <string name="welcome1">Herzlich Willkommen zu der Stundenplan-App!</string>
     <string name="welcome2">Hier wirst du nun deinen Stundenplan eintragen und weitere Einstellungen treffen können!</string>
@@ -24,11 +27,9 @@
     <string name="nav_today">Heute</string>
     <string name="nav_edit_schedule">Stundenplan bearbeiten</string>
     <string name="nav_overview">Übersicht</string>
-    <string name="nav_addHomework">Hausaufgabe hinzufügen</string>
+    <string name="nav_add_Homework">Hausaufgabe hinzufügen</string>
 
     <string name="schedule_today">Deine Fächer heute sind: </string>
-    <string name="title_activity_schedule_edit">ScheduleEdit</string>
-    <string name="title_activity_schedule_overview">ScheduleOverview</string>
 
     <string name="select_subject">Wähle ein Fach aus</string>
     <string name="select_date">Wähle aus, bis wann die Hausaufgabe gemacht werden muss</string>

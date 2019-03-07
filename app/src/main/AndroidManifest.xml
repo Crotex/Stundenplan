@@ -9,12 +9,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".HomeworkAdd"></activity>
+        <activity android:name=".HomeworkAdd" android:label="@string/nav_add_Homework"></activity>
         <activity
             android:name=".SettingsActivity"
             android:label="@string/title_activity_settings" />
-        <activity android:name=".ScheduleEdit" />
-        <activity android:name=".FirstLaunch" />
+        <activity android:name=".ScheduleEdit" android:label="@string/schedule_edit" />
+        <activity android:name=".FirstLaunch" android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".Main"
             android:label="@string/app_name"

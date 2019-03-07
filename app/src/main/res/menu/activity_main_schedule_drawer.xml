@@ -33,7 +33,7 @@
             <item
                 android:id="@+id/homeworkAdd"
                 android:icon="@android:drawable/ic_menu_add"
-                android:title="@string/nav_addHomework" />
+                android:title="@string/nav_add_Homework" />
         </menu>
     </item>
     <item

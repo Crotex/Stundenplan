@@ -69,6 +69,12 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                 // simple string representation.
                 preference.setSummary(stringValue);
             }
+
+            if(preference.getKey().equalsIgnoreCase("name_preference")) {
+                prefEdit.putString("userName", stringValue);
+                prefEdit.commit();
+                getMain().refreshName();
+            }
             return true;
         }
     };
@@ -162,11 +168,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             addPreferencesFromResource(R.xml.pref_general);
             setHasOptionsMenu(true);
 
-            String name = sharedPreferences.getString("userName", getString(R.string.userName));
-
             EditTextPreference namePreference = (EditTextPreference) findPreference("name_preference");
-            namePreference.setDefaultValue(name);
-            namePreference.setSummary(name);
 
             final Preference deleteSubjects = findPreference("delete_subjects");
             final Preference resetSchedule = findPreference("reset_schedule");
@@ -200,10 +202,6 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                 }
             };
 
-            // Bind the summaries of EditText/List/Dialog/Ringtone preferences
-            // to their values. When their values change, their summaries are
-            // updated to reflect the new value, per the Android Design
-            // guidelines.
             bindPreferenceSummaryToValue(namePreference);
         }
 

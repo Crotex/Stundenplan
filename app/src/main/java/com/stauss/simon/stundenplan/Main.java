@@ -62,6 +62,7 @@ public class Main
     boolean sortBySubject;
 
     static MenuItem homeworkOverviewItem;
+    static TextView userName;
 
     ScheduleTodayFragment scheduleToday = new ScheduleTodayFragment();
     ScheduleOverviewFragment scheduleOverview = new ScheduleOverviewFragment();
@@ -104,8 +105,8 @@ public class Main
             homeworkOverviewItem.setEnabled(false);
         }
 
-        TextView name = navigationView.getHeaderView(0).findViewById(R.id.userName);
-        name.setText(sharedPreferences.getString("userName", getString(R.string.userName)));
+        userName = navigationView.getHeaderView(0).findViewById(R.id.userName);
+        userName.setText(sharedPreferences.getString("userName", getString(R.string.userName)));
 
         subjectString = sharedPreferences.getString("subjects", "");
         subjects = getSubjects();
@@ -330,6 +331,10 @@ public class Main
 
     }
 
+
+    public void refreshName() {
+        userName.setText(sharedPreferences.getString("userName", ""));
+    }
 
     public String listToString(List<String> list, String regex) {
         StringBuilder stringBuilder = new StringBuilder();

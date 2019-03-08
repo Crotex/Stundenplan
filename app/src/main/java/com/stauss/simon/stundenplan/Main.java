@@ -250,7 +250,7 @@ public class Main
     }
 
     public void clearSubjects() {
-        prefEdit.putString("subjects", "");
+        prefEdit.remove("subjects");
         prefEdit.commit();
     }
 
@@ -332,9 +332,16 @@ public class Main
     }
 
     public void resetSchedule() {
-
+        for(int d = 1; d <= 5; d++) {
+            for(int h = 1; h <= 11; h++) {
+                prefEdit.remove(days[d]  + h + "s");
+                prefEdit.remove(days[d]  + h + "r");
+            }
+        }
+        prefEdit.commit();
+        clearSubjects();
+        //restart Acitivity
     }
-
 
     public void refreshName() {
         userName.setText(sharedPreferences.getString("userName", ""));
@@ -343,6 +350,7 @@ public class Main
     public void setActionBarTitle(String title) {
         getSupportActionBar().setTitle(title);
     }
+
 
     public String listToString(List<String> list, String regex) {
         StringBuilder stringBuilder = new StringBuilder();
@@ -370,5 +378,4 @@ public class Main
     public SharedPreferences.Editor getPrefEdit() {
         return prefEdit;
     }
-
 }

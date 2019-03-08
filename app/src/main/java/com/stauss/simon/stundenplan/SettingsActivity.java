@@ -44,6 +44,8 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
 
     public static Preference.OnPreferenceClickListener preferenceClickListener;
 
+    static Preference resetSchedule, deleteSubjects;
+
     /**
      * A preference value change listener that updates the preference's summary
      * to reflect its new value.
@@ -115,6 +117,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         sharedPreferences = getMain().getSharedPreferences();
         prefEdit = getMain().getPrefEdit();
 
+        setupListener();
         setupActionBar();
     }
 
@@ -127,6 +130,29 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             // Show the Up button in the action bar.
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
+    }
+
+    private void setupListener() {
+        preferenceClickListener = new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                if(preference.getKey().equalsIgnoreCase(deleteSubjects.getKey())) {
+                    getMain().clearSubjects();
+                    //Toast.makeText(getActivity(), "Du hast erfolgreich alle Fächer gelöscht!", Toast.LENGTH_SHORT).show();
+                    deleteSubjects.setEnabled(false);
+                    resetSchedule.setEnabled(false);
+                    return true;
+                } else if(preference.getKey().equalsIgnoreCase(resetSchedule.getKey())) {
+                    //Yes | No Dialog?
+                    getMain().resetSchedule();
+                    //Toast.makeText(getActivity(), "Du hast den Stundenplan erfolgreich zurückgesetzt!", Toast.LENGTH_SHORT).show();
+                    deleteSubjects.setEnabled(false);
+                    resetSchedule.setEnabled(false);
+                    return true;
+                }
+                return false;
+            }
+        };
     }
 
     /**
@@ -170,8 +196,8 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
 
             EditTextPreference namePreference = (EditTextPreference) findPreference("name_preference");
 
-            final Preference deleteSubjects = findPreference("delete_subjects");
-            final Preference resetSchedule = findPreference("reset_schedule");
+            deleteSubjects = findPreference("delete_subjects");
+            resetSchedule = findPreference("reset_schedule");
 
             if(getMain().getSubjects().size() != 0) {
                 deleteSubjects.setOnPreferenceClickListener(preferenceClickListener);
@@ -180,27 +206,6 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                 deleteSubjects.setEnabled(false);
                 resetSchedule.setEnabled(false);
             }
-
-            preferenceClickListener = new Preference.OnPreferenceClickListener() {
-                @Override
-                public boolean onPreferenceClick(Preference preference) {
-                    if(preference == deleteSubjects) {
-                        getMain().clearSubjects();
-                        Toast.makeText(getActivity(), "Du hast erfolgreich alle Fächer gelöscht!", Toast.LENGTH_SHORT).show();
-                        deleteSubjects.setEnabled(false);
-                        resetSchedule.setEnabled(false);
-                        return true;
-                    } else if(preference == resetSchedule) {
-                        //Yes | No Dialog?
-                        getMain().resetSchedule();
-                        Toast.makeText(getActivity(), "Du hast den Stundenplan erfolgreich zurückgesetzt!", Toast.LENGTH_SHORT).show();
-                        deleteSubjects.setEnabled(false);
-                        resetSchedule.setEnabled(false);
-                        return true;
-                    }
-                    return false;
-                }
-            };
 
             bindPreferenceSummaryToValue(namePreference);
         }

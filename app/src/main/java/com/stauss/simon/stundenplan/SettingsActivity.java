@@ -2,6 +2,7 @@ package com.stauss.simon.stundenplan;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
@@ -18,6 +19,7 @@ import android.support.v7.app.ActionBar;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.preference.RingtonePreference;
+import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
@@ -40,11 +42,14 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
 
     public static SharedPreferences sharedPreferences;
     public static SharedPreferences.Editor prefEdit;
-    public static Main main = new Main();
+
+    Context context = this;
 
     public static Preference.OnPreferenceClickListener preferenceClickListener;
 
     static Preference resetSchedule, deleteSubjects;
+
+    String whichIsClicked;
 
     /**
      * A preference value change listener that updates the preference's summary
@@ -121,9 +126,6 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         setupActionBar();
     }
 
-    /**
-     * Set up the {@link android.app.ActionBar}, if the API is available.
-     */
     private void setupActionBar() {
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -133,21 +135,47 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
     }
 
     private void setupListener() {
+
+
         preferenceClickListener = new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
+                DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which){
+                            case DialogInterface.BUTTON_POSITIVE:
+                                //Yes button clicked
+                                if(whichIsClicked.equalsIgnoreCase("subjects")) {
+                                    getMain().clearSubjects();
+                                    Toast.makeText(context, "Du hast erfolgreich alle Fächer gelöscht!", Toast.LENGTH_SHORT).show();
+                                } else if (whichIsClicked.equalsIgnoreCase("schedule")) {
+                                    resetSchedule.setEnabled(false);
+                                    getMain().resetSchedule();
+                                    Toast.makeText(context, "Du hast den Stundenplan erfolgreich zurückgesetzt!", Toast.LENGTH_SHORT).show();
+                                }
+                                deleteSubjects.setEnabled(false);
+                                break;
+
+                            case DialogInterface.BUTTON_NEGATIVE:
+                                //No button clicked
+                                break;
+                        }
+                    }
+                };
+
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+
                 if(preference.getKey().equalsIgnoreCase(deleteSubjects.getKey())) {
-                    getMain().clearSubjects();
-                    //Toast.makeText(getActivity(), "Du hast erfolgreich alle Fächer gelöscht!", Toast.LENGTH_SHORT).show();
-                    deleteSubjects.setEnabled(false);
-                    resetSchedule.setEnabled(false);
+                    whichIsClicked = "subjects";
+                    //Yes | No Dialog
+                    builder.setMessage(getString(R.string.pref_are_you_sure)).setPositiveButton("Ja", dialogClickListener).setNegativeButton("Nein", dialogClickListener).setTitle(getString(R.string.pref_delete_subjects)).show();
                     return true;
                 } else if(preference.getKey().equalsIgnoreCase(resetSchedule.getKey())) {
-                    //Yes | No Dialog?
-                    getMain().resetSchedule();
-                    //Toast.makeText(getActivity(), "Du hast den Stundenplan erfolgreich zurückgesetzt!", Toast.LENGTH_SHORT).show();
-                    deleteSubjects.setEnabled(false);
-                    resetSchedule.setEnabled(false);
+                    whichIsClicked = "schedule";
+                    //Yes | No Dialog
+                    builder.setMessage(getString(R.string.pref_are_you_sure)).setPositiveButton("Ja", dialogClickListener).setNegativeButton("Nein", dialogClickListener).setTitle(getString(R.string.pref_reset_schedule)).show();
                     return true;
                 }
                 return false;
@@ -155,37 +183,23 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         };
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public boolean onIsMultiPane() {
         return isXLargeTablet(this);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public void onBuildHeaders(List<Header> target) {
         loadHeadersFromResource(R.xml.pref_headers, target);
     }
 
-    /**
-     * This method stops fragment injection in malicious applications.
-     * Make sure to deny any unknown fragments here.
-     */
     protected boolean isValidFragment(String fragmentName) {
         return PreferenceFragment.class.getName().equals(fragmentName)
                 || GeneralPreferenceFragment.class.getName().equals(fragmentName)
                 || NotificationPreferenceFragment.class.getName().equals(fragmentName);
     }
 
-    /**
-     * This fragment shows general preferences only. It is used when the
-     * activity is showing a two-pane settings UI.
-     */
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public static class GeneralPreferenceFragment extends PreferenceFragment {
         @Override
@@ -221,10 +235,6 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         }
     }
 
-    /**
-     * This fragment shows notification preferences only. It is used when the
-     * activity is showing a two-pane settings UI.
-     */
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public static class NotificationPreferenceFragment extends PreferenceFragment {
         @Override
@@ -232,11 +242,6 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             super.onCreate(savedInstanceState);
             addPreferencesFromResource(R.xml.pref_notification);
             setHasOptionsMenu(true);
-
-            // Bind the summaries of EditText/List/Dialog/Ringtone preferences
-            // to their values. When their values change, their summaries are
-            // updated to reflect the new value, per the Android Design
-            // guidelines.
         }
 
         @Override
@@ -251,6 +256,6 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
     }
 
     public static Main getMain() {
-        return main;
+        return new Main();
     }
 }

@@ -7,6 +7,7 @@
     <string name="schedule_edit">Stundenplan bearbeiten</string>
     <string name="homework">Hausaufgaben</string>
     <string name="homework_overview">Hausaufgabenübersicht</string>
+    <string name="about">Über die App</string>
 
     <string name="welcome1">Herzlich Willkommen zu der Stundenplan-App!</string>
     <string name="welcome2">Hier wirst du nun deinen Stundenplan eintragen und weitere Einstellungen treffen können!</string>
@@ -46,6 +47,19 @@
     <string name="ask_clear_homework">Willst du wirklich alle Hausaufgaben löschen?</string>
     <string name="homework_cleared">Alle Hausaufgaben wurden gelöscht!</string>
 
+    <string name="about_header">Stundenplan</string>
+    <string name="about_desc">Diese App ermöglicht dir, die Übersicht über deinen Stundenplan und deine Hausaufgaben nicht zu verlieren.\n\nHier eine kurze Übersicht über die Fähigkeiten der App:</string>
+    <string name="about_instructions">
+        <li>Die Navigation wird mit einem Klick auf die Querbalken in der linken, oberen Ecke geöffnet</li> \n\n
+        <li>Um deinen Stundenplan von heute anzuzeigen, öffne die Navigation und wähle <b>Heute</b> aus</li> \n\n
+        <li>Um eine Gesamtübersicht über deine Woche zu erhalte, öffne die Navigation und wähle <b>Übersicht</b> in der Stundenplan-Kategorie aus</li> \n\n
+        <li>Um deinen Stundenplan zu bearbeiten, öffne die Navigation und wähle <b>Stundenplan bearbeiten</b> aus</li> \n\n
+        <li>Um deine alle Hausaufgaben anzuzeigen, öffne die Navigation und wähle <b>Übersicht</b> in der Hausaufgaben-Kategorie aus</li> \n\n
+        <li>Um eine Hausaufgabe hinzuzufügen, öffne die Navigation und wähle <b>Hausaufgabe hinzufügen</b> aus</li> \n\n
+        <li>Um Veränderungen an den Einstellungen vorzunehmen, öffne die Navigation und wähle <b>Einstellungen</b> aus</li> \n\n
+        <li>Um Informationen über die App zu erhalten, öffne die Navigation und wähle <b>Über die App</b> aus</li> \n\n
+    </string>
+    <string name="about_copyright">© Simon Stauss</string>
 
     <!-- Strings related to Settings -->
     <string name="title_activity_settings">Einstellungen</string>

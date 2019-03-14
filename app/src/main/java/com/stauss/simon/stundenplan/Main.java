@@ -68,6 +68,7 @@ public class Main
     ScheduleTodayFragment scheduleToday = new ScheduleTodayFragment();
     ScheduleOverviewFragment scheduleOverview = new ScheduleOverviewFragment();
     HomeworkOverviewFragment homeworkOverview = new HomeworkOverviewFragment();
+    AboutFragment aboutFragment = new AboutFragment();
 
 
     @SuppressLint("CommitPrefEdits")
@@ -166,6 +167,9 @@ public class Main
         } else if(id == R.id.settings) {
             //Open Settings Activity
             openActivity(i, SettingsActivity.class);
+        } else if(id == R.id.about) {
+            //Open About Fragment
+            openFragment(aboutFragment);
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);

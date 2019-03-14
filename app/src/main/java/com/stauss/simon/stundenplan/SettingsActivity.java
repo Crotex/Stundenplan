@@ -42,6 +42,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
 
     public static SharedPreferences sharedPreferences;
     public static SharedPreferences.Editor prefEdit;
+    public static Main main = new Main();
 
     Context context = this;
 
@@ -152,7 +153,6 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                                 } else if (whichIsClicked.equalsIgnoreCase("schedule")) {
                                     resetSchedule.setEnabled(false);
                                     getMain().resetSchedule();
-                                    Toast.makeText(context, "Du hast den Stundenplan erfolgreich zurückgesetzt!", Toast.LENGTH_SHORT).show();
                                 }
                                 deleteSubjects.setEnabled(false);
                                 break;
@@ -256,6 +256,6 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
     }
 
     public static Main getMain() {
-        return new Main();
+        return main;
     }
 }

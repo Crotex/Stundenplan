@@ -346,8 +346,7 @@ public class Main
         clearSubjects();
 
         //Restart Acitivity
-        finish();
-        startActivity(new Intent(this, Main.class));
+        recreate();
     }
 
     public void refreshName() {

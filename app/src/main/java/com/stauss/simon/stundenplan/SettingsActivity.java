@@ -151,7 +151,6 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                                     getMain().clearSubjects();
                                     Toast.makeText(context, "Du hast erfolgreich alle Fächer gelöscht!", Toast.LENGTH_SHORT).show();
                                 } else if (whichIsClicked.equalsIgnoreCase("schedule")) {
-                                    resetSchedule.setEnabled(false);
                                     getMain().resetSchedule();
                                 }
                                 deleteSubjects.setEnabled(false);

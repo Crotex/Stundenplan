@@ -344,7 +344,10 @@ public class Main
         }
         prefEdit.commit();
         clearSubjects();
-        //restart Acitivity
+
+        //Restart Acitivity
+        finish();
+        startActivity(new Intent(this, Main.class));
     }
 
     public void refreshName() {

@@ -50,14 +50,14 @@
     <string name="about_header">Stundenplan</string>
     <string name="about_desc">Diese App ermöglicht dir, die Übersicht über deinen Stundenplan und deine Hausaufgaben nicht zu verlieren.\n\nHier eine kurze Übersicht über die Fähigkeiten der App:</string>
     <string name="about_instructions">
-        <li>Die Navigation wird mit einem Klick auf die Querbalken in der linken, oberen Ecke geöffnet</li> \n\n
-        <li>Um deinen Stundenplan von heute anzuzeigen, öffne die Navigation und wähle <i>Heute</i> aus</li> \n\n
-        <li>Um eine Gesamtübersicht über deine Woche zu erhalte, öffne die Navigation und wähle <i>Übersicht</i> in der Stundenplan-Kategorie aus</li> \n\n
-        <li>Um deinen Stundenplan zu bearbeiten, öffne die Navigation und wähle <i>Stundenplan bearbeiten</i> aus</li> \n\n
-        <li>Um deine alle Hausaufgaben anzuzeigen, öffne die Navigation und wähle <i>Übersicht</i> in der Hausaufgaben-Kategorie aus</li> \n\n
-        <li>Um eine Hausaufgabe hinzuzufügen, öffne die Navigation und wähle <i>Hausaufgabe hinzufügen</i> aus</li> \n\n
-        <li>Um Veränderungen an den Einstellungen vorzunehmen, öffne die Navigation und wähle <i>Einstellungen</i> aus</li> \n\n
-        <li>Um Informationen über die App zu erhalten, öffne die Navigation und wähle <i>Über die App</i> aus</li> \n\n
+        <li>Die Navigation wird mit einem Klick auf die Querbalken in der linken, oberen Ecke geöffnet</li>\n\n
+        <li>Um deinen Stundenplan von heute anzuzeigen, öffne die Navigation und wähle <i>Heute</i> aus</li>\n\n
+        <li>Um eine Gesamtübersicht über deine Woche zu erhalte, öffne die Navigation und wähle <i>Übersicht</i> in der Stundenplan-Kategorie aus</li>\n\n
+        <li>Um deinen Stundenplan zu bearbeiten, öffne die Navigation und wähle <i>Stundenplan bearbeiten</i> aus</li>\n\n
+        <li>Um deine alle Hausaufgaben anzuzeigen, öffne die Navigation und wähle <i>Übersicht</i> in der Hausaufgaben-Kategorie aus</li>\n\n
+        <li>Um eine Hausaufgabe hinzuzufügen, öffne die Navigation und wähle <i>Hausaufgabe hinzufügen</i> aus</li>\n\n
+        <li>Um Veränderungen an den Einstellungen vorzunehmen, öffne die Navigation und wähle <i>Einstellungen</i> aus</li>\n\n
+        <li>Um Informationen über die App zu erhalten, öffne die Navigation und wähle <i>Über die App</i> aus</li>\n\n
     </string>
     <string name="about_copyright">© Simon Stauss</string>
 

@@ -31,8 +31,8 @@ public class ScheduleEdit extends AppCompatActivity {
 
         days = getMain().getWeek();
 
-        sharedPreferences = getSharedPreferences(getString(R.string.preference_key), MODE_PRIVATE);
-        prefEdit = sharedPreferences.edit();
+        sharedPreferences = getMain().getSharedPreferences();
+        prefEdit = getMain().getPrefEdit();
 
         day = getIntent().getIntExtra("day", 1);
 

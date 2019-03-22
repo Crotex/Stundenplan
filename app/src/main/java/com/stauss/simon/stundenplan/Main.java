@@ -37,10 +37,7 @@ public class Main
         extends
             AppCompatActivity
         implements
-            NavigationView.OnNavigationItemSelectedListener,
-            ScheduleOverviewFragment.OnFragmentInteractionListener,
-            ScheduleTodayFragment.OnFragmentInteractionListener,
-            HomeworkOverviewFragment.OnFragmentInteractionListener {
+            NavigationView.OnNavigationItemSelectedListener {
 
 
     public static SharedPreferences sharedPreferences;
@@ -78,18 +75,19 @@ public class Main
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_schedule);
 
-        day = getDay();
-
+        //  Loading SharedPreferences (= Config)
         sharedPreferences = getSharedPreferences(getString(R.string.preference_key), MODE_PRIVATE);
         prefEdit = sharedPreferences.edit();
 
         fragmentManager = getSupportFragmentManager();
 
+        //  Is this the first launch? Execute firstLaunch()
         boolean firstLaunch = sharedPreferences.getBoolean("firstLaunch", true);
         if(firstLaunch) {
             firstLaunch();
         }
 
+        //  Loading Layout Components
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -102,27 +100,36 @@ public class Main
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        homeworkOverviewItem = navigationView.getMenu().findItem(R.id.homeworkOverview);
+        day = getDay();
 
-        if(getHomework().size() == 0) {
-            homeworkOverviewItem.setEnabled(false);
-        }
-
+        //  Reading username from config and setting the text of the label to the name
         userName = navigationView.getHeaderView(0).findViewById(R.id.userName);
         userName.setText(sharedPreferences.getString("userName", getString(R.string.userName)));
 
+        //  Loading subjects from config
         subjectString = sharedPreferences.getString("subjects", "");
         subjects = getSubjects();
 
+        //  Loading homework from Config
         homeworkCount = getHomeworkCount();
         homeworkString = sharedPreferences.getString("homework", "");
         homework = getHomework();
 
+        //  Initializing HomeworkOverview MenuItem
+        homeworkOverviewItem = navigationView.getMenu().findItem(R.id.homeworkOverview);
+
+        //  Disable said Item if there is no homework present
+        if(getHomework().size() == 0) {
+            homeworkOverviewItem.setEnabled(false);
+        }
+
+        //  Open fragment with the schedule of today
         openFragment(scheduleToday);
     }
 
     @Override
     public void onBackPressed() {
+        //  Close NavigationDrawer if back-key is pressed
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
@@ -133,11 +140,12 @@ public class Main
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
+        //   Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main_schedule, menu);
         return true;
     }
 
+    //  This method is called once a MenuItem is seletected
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         int id = item.getItemId();
@@ -145,60 +153,60 @@ public class Main
         Intent i = new Intent();
 
         if (id == R.id.scheduleToday) {
-            //Open today fragment
+            //  Open fragment with daily schedule
             openFragment(scheduleToday);
             setActionBarTitle(getString(R.string.schedule));
         } else if (id == R.id.scheduleOverview) {
-            //Open Overview Fragment
+            //  Open ScheduleOverview fragment
             openFragment(scheduleOverview);
             setActionBarTitle(getString(R.string.schedule_overview));
         } else if (id == R.id.scheduleEdit) {
-            //Open ScheduleEdit Activity
+            //  Open ScheduleEdit Activity, put current day
             i.putExtra("day", getDayNr());
             openActivity(i, ScheduleEdit.class);
         } else if (id == R.id.homeworkAdd) {
-            //Open HomeworkAdd Activity
+            //  Open HomeworkAdd Activity, put subjects
             ArrayList<String> sub = new ArrayList<>(getSubjects());
             i.putStringArrayListExtra("subjects", sub);
             openActivity(i, HomeworkAdd.class);
         } else if (id == R.id.homeworkOverview) {
-            //Open HomeworkOverview Fragment
+            //  Open HomeworkOverview
             openFragment(homeworkOverview);
             setActionBarTitle(getString(R.string.homework_overview));
         } else if(id == R.id.settings) {
-            //Open Settings Activity
+            //  Open Settings
             openActivity(i, SettingsActivity.class);
         } else if(id == R.id.about) {
-            //Open About Fragment
+            // Open AboutFragment
             openFragment(aboutFragment);
         }
 
+        // Close Navigation with an animation
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 
-    @Override
-    public void onFragmentInteraction(Uri uri) {
-        //No Interaction with Fragments needed
-    }
-
+    // This is the first Time the user launched the app; open FirstLaunch Activity
     private void firstLaunch() {
         Intent i = new Intent();
         i.setClass(this, FirstLaunch.class);
         startActivity(i);
     }
 
+    // Open new Activity (Class c) with a provided Intent (Intent i)
     private void openActivity(Intent i, Class c) {
         i.setClass(this, c);
+        // No opening-animation
         i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
         startActivity(i);
     }
 
+    // This method replaced the Apps display content with the new Fragment f
     private void openFragment(Fragment f) {
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-        fragmentTransaction.replace(R.id.container, f);
+        fragmentTransaction.replace(R.id.container, f); // "Container" is part of the layout and will be replaced by the fragments layout
         fragmentTransaction.addToBackStack(null);
 
         try {
@@ -208,33 +216,35 @@ public class Main
         }
     }
 
+    //  This method determines whether its weekend or not
     public boolean isWeekend() {
-        return getDayNr() >= 6 || getDayNr() == 0;
+        return getDayNr() == 6 || getDayNr() == 0;
     }
 
+    // This method returns the current day
     public String getDay() {
         if(isWeekend()) {
-            day = days[1];
+            day = days[1]; // If the app is launched on a weekend (Saturday/Sunday) next mondays schedule will be opened
         } else {
-            day = days[getDayNr()];
+            day = days[getDayNr()]; // Else return the current day
         }
         return day;
     }
 
+    //  Order of the days according to the Calendar library: Sunday(0), Monday(1), Tuesday(2), Wednesday(3), Thursday(4), Friday(5), Saturday(6)
+    //  This method return the current DayNr (see above)
     public int getDayNr() {
         Calendar c = Calendar.getInstance();
         dayNr = c.get(Calendar.DAY_OF_WEEK) - 1;
-        if(dayNr > 5) {
-            dayNr = 1;
-        }
         return dayNr;
     }
 
+    // This method returns days of the week as Array
     public String[] getWeek() {
         return days;
     }
 
-
+    // This method adds a subject to the List unless it hasn't been added yet 
     public void addSubject(String subject) {
         if(!getSubjects().contains(subject)) {
             subjects.add(subject);
@@ -242,24 +252,28 @@ public class Main
         }
     }
 
+    // This method loads subjects as a String from config and converts it into a List
     public List<String> getSubjects() {
         subjectString = sharedPreferences.getString("subjects", "");
         subjects = stringToList(subjectString, subjectRegex);
         return subjects;
     }
 
+    // This method saves subjects as a String in the config 
     public void saveSubjects() {
         subjectString = listToString(subjects, subjectRegex);
         prefEdit.putString("subjects", subjectString);
         prefEdit.apply();
     }
 
+    // This method removes all subjects
     public void clearSubjects() {
         prefEdit.remove("subjects");
         prefEdit.commit();
     }
 
 
+    // This method adds a new homework and sorts the List again
     public void addHomework(String subject, String description, String dueTo) {
         String homeworkSubstring = subject + homeworkSubregex + description + homeworkSubregex + dueTo;
         getHomework().add(homeworkSubstring);
@@ -269,17 +283,20 @@ public class Main
         saveHomework(homework);
     }
 
+    // This method loads homework as a String from the Config and converts it into a List
     public List<String> getHomework() {
         homeworkString = sharedPreferences.getString("homework", "");
         homework = stringToList(homeworkString, homeworkRegex);
         return homework;
     }
 
+    // This method return the homeworkCount from the Config
     public int getHomeworkCount() {
         homeworkCount = sharedPreferences.getInt("homeworkCount", 0);
         return homeworkCount;
     }
 
+    // This method saves homework as a String in the Config
     public void saveHomework(List<String> list) {
         if(list.size() == 0) {
             homeworkString = "";
@@ -293,19 +310,21 @@ public class Main
         prefEdit.commit();
     }
 
+    // This method removes all homework
     public void clearHomework() {
-        prefEdit.putString("homework", "");
+        prefEdit.remove("homework");
         prefEdit.commit();
     }
 
+    // This method sorts homework according to the date (for now)
     public void sortHomework() {
         Collections.sort(homework, new Comparator<String>() {
             @Override
             public int compare(String h1, String h2) {
-                // -1 - less than,
-                // 1 - greater than,
-                // 0 - equal,
-                // all inversed for descending
+                //  -1 = smaller,
+                //  1  = bigger,
+                //  0  = equal,
+                //  inverted for descending
 
                 String[] part1 = h1.split(homeworkSubregex);
                 String[] part2 = h2.split(homeworkSubregex);
@@ -336,6 +355,7 @@ public class Main
         });
     }
 
+    // This method resets the entire schedule
     public void resetSchedule() {
         for(int d = 1; d <= 5; d++) {
             for(int h = 1; h <= 11; h++) {
@@ -346,26 +366,28 @@ public class Main
         prefEdit.commit();
         clearSubjects();
 
-        //Restart Acitivity
+        //  Restarting the Activity
         try {
             recreate();
         } catch (NullPointerException e) {
             Intent i = new Intent();
-            i.setClass(Main.this, Main.class); //TODO: Context
+            i.setClass(Main.this, Main.class); // TODO: Context
             startActivity(i);
         }
 
     }
 
+    // This method refreshed the userName
     public void refreshName() {
         userName.setText(sharedPreferences.getString("userName", ""));
     }
 
+    // This method changes the title of the ActionBar
     public void setActionBarTitle(String title) {
         getSupportActionBar().setTitle(title);
     }
 
-
+    // This method splits List at provided regex and converts it into a String
     public String listToString(List<String> list, String regex) {
         StringBuilder stringBuilder = new StringBuilder();
         for(String s : list) {
@@ -375,6 +397,7 @@ public class Main
         return stringBuilder.toString();
     }
 
+    // This method splits String at provided regex and returns it as a List
     public List<String> stringToList(String string, String regex) {
         if(!string.equalsIgnoreCase("")) {
             String[] stringArray = string.split(regex);
@@ -384,11 +407,12 @@ public class Main
         }
     }
 
-
+    // This method return the Config (static)
     public SharedPreferences getSharedPreferences() {
         return sharedPreferences;
     }
 
+    // This method returns the ConfigEditor (static)
     public SharedPreferences.Editor getPrefEdit() {
         return prefEdit;
     }

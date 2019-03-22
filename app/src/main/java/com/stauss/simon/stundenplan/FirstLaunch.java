@@ -21,12 +21,16 @@ public class FirstLaunch extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_first_launch);
 
+        // Preventing the App from launching this activity twice
         sharedPreferences = getSharedPreferences(getString(R.string.preference_key), MODE_PRIVATE);
         prefEdit = sharedPreferences.edit();
         prefEdit.putBoolean("firstLaunch", false);
         prefEdit.apply();
 
+        // NameInput = EditText where the user is supposed to enter their name
         nameInput = findViewById(R.id.nameInput);
+
+        // Execute the next step if nameInput lost focus
         nameInput.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
@@ -35,18 +39,14 @@ public class FirstLaunch extends AppCompatActivity {
                 }
             }
         });
+
+        // Execute the next step if user pressed the "Enter" button
         nameInput.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if(actionId == EditorInfo.IME_ACTION_SEARCH || actionId == EditorInfo.IME_ACTION_DONE || event != null && event.getAction() == KeyEvent.ACTION_DOWN && event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
                     if(event == null || !event.isShiftPressed()) {
                         setName(nameInput.getText().toString());
-
-                        Intent i = new Intent();
-                        i.setClass(getApplicationContext(), ScheduleEdit.class);
-                        i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                        i.putExtra("day", 1);
-                        startActivity(i);
                         return true;
                     }
                 }
@@ -55,8 +55,19 @@ public class FirstLaunch extends AppCompatActivity {
         });
     }
 
+    // Save userName to config and continue with setup
     private void setName(String name) {
         prefEdit.putString("userName", name);
         prefEdit.commit();
+        nameInputFinished();
+    }
+
+    // Open ScheduleEdit Activity
+    private void nameInputFinished() {
+        Intent i = new Intent();
+        i.setClass(getApplicationContext(), ScheduleEdit.class);
+        i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        i.putExtra("day", 1);
+        startActivity(i);
     }
 }

@@ -128,8 +128,9 @@ public class HomeworkAdd extends AppCompatActivity {
         }
     }
 
+    // TimePicker -> Needed for Notifications, Disabled for now
+
     /*
-    //TimePicker -> Needed for Notifications
     public static class TimePicker extends DialogFragment implements TimePickerDialog.OnTimeSetListener {
 
         @NonNull

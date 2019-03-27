@@ -35,9 +35,12 @@ public class HomeworkAdd extends AppCompatActivity {
 
         initSpinner();
 
+        // DateText input shouldn't be clicked
         dateText = findViewById(R.id.dateText);
         dateText.setFocusable(false);
         dateText.setInputType(InputType.TYPE_NULL);
+
+        // Open DatePicker Fragment once "Date" Button is clicked
         findViewById(R.id.button2).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -46,13 +49,19 @@ public class HomeworkAdd extends AppCompatActivity {
             }
         });
 
+        // Once "Save" Button is pressed, add homework with all the Information given in the InputFields
         Button saveButton = findViewById(R.id.saveButton);
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(allInformationGiven()) {
+                    // Add Homework with "Subject", "Description" and "Date"
                     getMain().addHomework(subjectSpinner.getSelectedItem().toString(), description.getText().toString(), dateText.getText().toString());
+
+                    // Inform user that the homework was added successfully
                     Toast.makeText(HomeworkAdd.this, getString(R.string.homework_success), Toast.LENGTH_SHORT).show();
+
+                    // Open Main Activity again
                     Intent i = new Intent(getApplicationContext(), Main.class);
                     i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                     startActivity(i);
@@ -62,7 +71,7 @@ public class HomeworkAdd extends AppCompatActivity {
             }
         });
 
-
+        // User isn't allowed to use ";" in the "Description" since it'll corrupt the saving and restoring process (";" is used as regex to split items)
         InputFilter filter = new InputFilter() {
             String blockedCharacters = getString(R.string.blocked_characters);
 
@@ -79,6 +88,7 @@ public class HomeworkAdd extends AppCompatActivity {
         description.setFilters(new InputFilter[] {filter});
     }
 
+    // Get Subjects from IntentExtra and initialize spinner (Drop-Down List) with subjects
     private void initSpinner() {
         if(!getIntent().getStringArrayListExtra("subjects").isEmpty()) {
             List<String> subjects = getIntent().getStringArrayListExtra("subjects");
@@ -89,6 +99,7 @@ public class HomeworkAdd extends AppCompatActivity {
         }
     }
 
+    // Is every InputField filled?
     private boolean allInformationGiven() {
         return datePicked && !description.getText().toString().equalsIgnoreCase("");
     }
@@ -107,11 +118,13 @@ public class HomeworkAdd extends AppCompatActivity {
             int m = c.get(Calendar.MONTH);
             int d = c.get(Calendar.DAY_OF_MONTH);
 
+            //Open DatePicker with the current date selected
             return new DatePickerDialog(getActivity(), this, y, m, d);
         }
 
         @Override
         public void onDateSet(android.widget.DatePicker view, int year, int month, int dayOfMonth) {
+            // Build the String to always have the same format DD.MM.YYY (Used for sorting)
             String date = "";
             if(dayOfMonth < 10) {
                 date = "0";
@@ -122,7 +135,7 @@ public class HomeworkAdd extends AppCompatActivity {
             }
             date += (month + 1) + "." + year;
             // 02.02.2019
-            // 12.02.2019
+            // 12.12.2019
             dateText.setText(date);
             datePicked = true;
         }

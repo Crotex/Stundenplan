@@ -22,6 +22,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
 
         public ViewHolder(View v) {
             super(v);
+            // Initialize Components
             subject = v.findViewById(R.id.subject);
             dueDate = v.findViewById(R.id.dueDate);
             description = v.findViewById(R.id.description);
@@ -45,6 +46,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
     @NonNull
     @Override
     public ListAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+        // Create a new View Holder for each item based on a custom layout file
         Context c = viewGroup.getContext();
         LayoutInflater inflater = LayoutInflater.from(c);
 
@@ -57,6 +59,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
     public void onBindViewHolder(@NonNull ListAdapter.ViewHolder viewHolder, int i) {
         splitListItems(i);
 
+        // Set Text of TextViews to corresponding String
         TextView s = viewHolder.subject;
         s.setText(subject);
 
@@ -77,16 +80,26 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
     }
 
     private void splitListItems(int index) {
+        // Get String at position i of the list
         String listItem = homework.get(index);
+
+        // Convert String back to List, splitting it up at ";;"
         List<String> sublist = getMain().stringToList(listItem, getMain().homeworkSubregex);
+
+        // 1st field in the List represents the subject, 2nd the description and 3rd the date
         subject = sublist.get(0);
         description = sublist.get(1);
         date = sublist.get(2);
     }
 
     private void removeItemAt(int position) {
+        // Remove item from List at position
         homework.remove(position);
+
+        // Save Homework
         getMain().saveHomework(homework);
+
+        // Remove item and reload View
         notifyItemRemoved(position);
         notifyItemRangeChanged(position, homework.size());
     }

@@ -51,25 +51,33 @@ public class ScheduleOverviewFragment extends Fragment {
     private void buildSchedule(TableLayout table) {
         TableRow row;
 
+        // Repeat this for each hour (1-11)
         for (int i = 1; i <= 11; i++) {
+            // Create a new row
             row = new TableRow(getContext());
             row.setLayoutParams(new TableRow.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, 1));
             row.setPadding(0, 5, 0, 5);
 
+            // Create new TextView for each hour
             TextView h = new TextView(getContext());
             h.setText("" + i);
             h.setGravity(Gravity.CENTER);
             row.addView(h, new TableRow.LayoutParams(0));
 
+            // Repeat this for each day (1-5)
             for (int d = 1; d <= 5; d++) {
+                // Create new TextView for subjects
                 TextView sub = new TextView(getContext());
                 sub.setText(sharedPreferences.getString( days[d] + i + "s", "-"));
                 sub.setGravity(Gravity.CENTER);
 
+                // Add spaces for better visibility
                 Space space = new Space(getContext());
                 row.addView(sub, new TableRow.LayoutParams(d + 1));
                 row.addView(space, new TableRow.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
             }
+
+            // Add row to table
             table.addView(row);
         }
     }

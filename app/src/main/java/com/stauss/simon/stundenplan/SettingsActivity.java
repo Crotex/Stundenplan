@@ -27,17 +27,6 @@ import android.widget.Toast;
 
 import java.util.List;
 
-/**
- * A {@link PreferenceActivity} that presents a set of application settings. On
- * handset devices, settings are presented as a single list. On tablets,
- * settings are split by category, with category headers shown to the left of
- * the list of settings.
- * <p>
- * See <a href="http://developer.android.com/design/patterns/settings.html">
- * Android Design: Settings</a> for design guidelines and the <a
- * href="http://developer.android.com/guide/topics/ui/settings.html">Settings
- * API Guide</a> for more information on developing a Settings UI.
- */
 public class SettingsActivity extends AppCompatPreferenceActivity {
 
     public static SharedPreferences sharedPreferences;
@@ -61,6 +50,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         public boolean onPreferenceChange(Preference preference, Object value) {
             String stringValue = value.toString();
 
+            /* Not using listPreference for now
             if (preference instanceof ListPreference) {
                 // For list preferences, look up the correct display value in
                 // the preference's 'entries' list.
@@ -76,8 +66,11 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                 // For all other preferences, set the summary to the value's
                 // simple string representation.
                 preference.setSummary(stringValue);
-            }
+            } */
 
+            preference.setSummary(stringValue);
+
+            // User Name changend -> save to config and refresh name TextView
             if(preference.getKey().equalsIgnoreCase("name_preference")) {
                 prefEdit.putString("userName", stringValue);
                 prefEdit.commit();
@@ -109,8 +102,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         // Set the listener to watch for value changes.
         preference.setOnPreferenceChangeListener(sBindPreferenceSummaryToValueListener);
 
-        // Trigger the listener immediately with the preference's
-        // current value.
+        // Trigger the listener immediately with the preference's current value.
         sBindPreferenceSummaryToValueListener.onPreferenceChange(preference,
                 PreferenceManager
                         .getDefaultSharedPreferences(preference.getContext())
@@ -136,8 +128,6 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
     }
 
     private void setupListener() {
-
-
         preferenceClickListener = new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
@@ -146,9 +136,12 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         switch (which){
                             case DialogInterface.BUTTON_POSITIVE:
-                                //Yes button clicked
+                                // Yes button clicked
+                                // Did the user want to clear subjects or homework (both have the same Yes / No dialog)
                                 if(whichIsClicked.equalsIgnoreCase("subjects")) {
                                     getMain().clearSubjects();
+
+                                    // Notify user
                                     Toast.makeText(context, "Du hast erfolgreich alle Fächer gelöscht!", Toast.LENGTH_SHORT).show();
                                 } else if (whichIsClicked.equalsIgnoreCase("schedule")) {
                                     getMain().resetSchedule();
@@ -157,7 +150,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                                 break;
 
                             case DialogInterface.BUTTON_NEGATIVE:
-                                //No button clicked
+                                //No button clicked, do nothing
                                 break;
                         }
                     }
@@ -168,12 +161,12 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
 
                 if(preference.getKey().equalsIgnoreCase(deleteSubjects.getKey())) {
                     whichIsClicked = "subjects";
-                    //Yes | No Dialog
+                    //Yes / No Dialog
                     builder.setMessage(getString(R.string.pref_are_you_sure)).setPositiveButton("Ja", dialogClickListener).setNegativeButton("Nein", dialogClickListener).setTitle(getString(R.string.pref_delete_subjects)).show();
                     return true;
                 } else if(preference.getKey().equalsIgnoreCase(resetSchedule.getKey())) {
                     whichIsClicked = "schedule";
-                    //Yes | No Dialog
+                    //Yes / No Dialog
                     builder.setMessage(getString(R.string.pref_are_you_sure)).setPositiveButton("Ja", dialogClickListener).setNegativeButton("Nein", dialogClickListener).setTitle(getString(R.string.pref_reset_schedule)).show();
                     return true;
                 }
@@ -182,6 +175,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         };
     }
 
+    // The following Code is created by default
     @Override
     public boolean onIsMultiPane() {
         return isXLargeTablet(this);
@@ -212,6 +206,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             deleteSubjects = findPreference("delete_subjects");
             resetSchedule = findPreference("reset_schedule");
 
+            // Is subject list empty? -> Disable deleteSubjects and resetSchedule or bind them to the listener
             if(getMain().getSubjects().size() != 0) {
                 deleteSubjects.setOnPreferenceClickListener(preferenceClickListener);
                 resetSchedule.setOnPreferenceClickListener(preferenceClickListener);

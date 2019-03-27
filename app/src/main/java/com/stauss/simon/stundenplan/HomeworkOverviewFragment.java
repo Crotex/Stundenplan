@@ -41,12 +41,14 @@ public class HomeworkOverviewFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_homework_overview, container, false);
 
+        // Get homework List
         homework = getMain().getHomework();
 
         homeworkList = v.findViewById(R.id.list);
         homeworkList.setLayoutManager(new LinearLayoutManager(getContext()));
         homeworkList.setAdapter(new ListAdapter(homework));
 
+        // "Delete Homework" button with Yes / No Dialog once pressed
         deleteHomework = v.findViewById(R.id.deleteHomework);
         deleteHomework.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -56,19 +58,26 @@ public class HomeworkOverviewFragment extends Fragment {
                     public void onClick(DialogInterface dialog, int which) {
                         switch (which){
                             case DialogInterface.BUTTON_POSITIVE:
+                                // Sser wants to clear homework
                                 getMain().clearHomework();
+
+                                // Notify user
                                 Toast.makeText(getContext(), R.string.homework_cleared, Toast.LENGTH_SHORT).show();
+
+                                // Open Main Activity
                                 Intent i = new Intent(getContext(), Main.class);
                                 i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                                 startActivity(i);
                                 break;
 
                             case DialogInterface.BUTTON_NEGATIVE:
+                                // Do nothing
                                 break;
                         }
                     }
                 };
 
+                // Yes / No Dialog
                 AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                 builder.setMessage(R.string.ask_clear_homework).setPositiveButton("Ja", dialogClickListener)
                         .setNegativeButton("Nein", dialogClickListener).show();

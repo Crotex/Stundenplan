@@ -145,6 +145,8 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                                     Toast.makeText(context, "Du hast erfolgreich alle Fächer gelöscht!", Toast.LENGTH_SHORT).show();
                                 } else if (whichIsClicked.equalsIgnoreCase("schedule")) {
                                     getMain().resetSchedule();
+
+                                    // No notification needed since the app will restart itself
                                 }
                                 deleteSubjects.setEnabled(false);
                                 break;
@@ -229,6 +231,8 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         }
     }
 
+
+    // Notification Preferences disabled for now
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public static class NotificationPreferenceFragment extends PreferenceFragment {
         @Override

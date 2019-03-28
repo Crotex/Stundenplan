@@ -15,6 +15,7 @@ public class FirstLaunch extends AppCompatActivity {
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor prefEdit;
     EditText nameInput;
+    View.OnFocusChangeListener onFocusChangeListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,15 +31,20 @@ public class FirstLaunch extends AppCompatActivity {
         // NameInput = EditText where the user is supposed to enter their name
         nameInput = findViewById(R.id.nameInput);
 
-        // Execute the next step if nameInput lost focus
-        nameInput.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        // FocusChangeListener to handle focus change (e. g. user tapping out of the nameInput)
+        onFocusChangeListener = new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus) {
+                // Execute the next step if nameInput lost focus
+                if(v == nameInput && !hasFocus) {
                     setName(nameInput.getText().toString());
                 }
             }
-        });
+        };
+
+        // Bind listener to layout
+        nameInput.setOnFocusChangeListener(onFocusChangeListener);
+        findViewById(R.id.firstLaunchLayout).setOnFocusChangeListener(onFocusChangeListener);
 
         // Execute the next step if user pressed the "Enter" button
         nameInput.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -54,6 +60,12 @@ public class FirstLaunch extends AppCompatActivity {
             }
         });
     }
+
+    @Override
+    public void onBackPressed() {
+
+    }
+
 
     // Save userName to config and continue with setup
     private void setName(String name) {

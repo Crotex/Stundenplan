@@ -96,9 +96,11 @@ public class HomeworkAdd extends AppCompatActivity {
         ArrayAdapter<String> adapter;
         subjects = new ArrayList<>();
 
+        // Is subject list from intent empty?
         if(!getIntent().getStringArrayListExtra("subjects").isEmpty()) {
             subjects = getIntent().getStringArrayListExtra("subjects");
         } else {
+            // No subjects were added -> Impossible to add Homework
             subjects.add(getString(R.string.no_subjects));
         }
 

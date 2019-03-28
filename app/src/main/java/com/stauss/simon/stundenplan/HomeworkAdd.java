@@ -18,6 +18,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -26,6 +27,7 @@ public class HomeworkAdd extends AppCompatActivity {
     static EditText dateText;
     EditText description;
     Spinner subjectSpinner;
+    List<String> subjects;
     static boolean datePicked;
 
     @Override
@@ -90,18 +92,24 @@ public class HomeworkAdd extends AppCompatActivity {
 
     // Get Subjects from IntentExtra and initialize spinner (Drop-Down List) with subjects
     private void initSpinner() {
+        subjectSpinner = findViewById(R.id.subSpinner);
+        ArrayAdapter<String> adapter;
+        subjects = new ArrayList<>();
+
         if(!getIntent().getStringArrayListExtra("subjects").isEmpty()) {
-            List<String> subjects = getIntent().getStringArrayListExtra("subjects");
-            subjectSpinner = findViewById(R.id.subSpinner);
-            ArrayAdapter<String> adapter = new ArrayAdapter<>(this,  R.layout.support_simple_spinner_dropdown_item, subjects.toArray(new String[1]));
-            adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
-            subjectSpinner.setAdapter(adapter);
+            subjects = getIntent().getStringArrayListExtra("subjects");
+        } else {
+            subjects.add(getString(R.string.no_subjects));
         }
+
+        adapter = new ArrayAdapter<>(this,  R.layout.support_simple_spinner_dropdown_item, subjects.toArray(new String[1]));
+        adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+        subjectSpinner.setAdapter(adapter);
     }
 
     // Is every InputField filled?
     private boolean allInformationGiven() {
-        return datePicked && !description.getText().toString().equalsIgnoreCase("");
+        return datePicked && !description.getText().toString().equalsIgnoreCase("") && !subjects.contains(getString(R.string.no_subjects));
     }
 
     private Main getMain() {

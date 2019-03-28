@@ -33,6 +33,7 @@
     <string name="schedule_today">Deine Fächer heute sind: </string>
 
     <string name="select_subject">Wähle ein Fach aus</string>
+    <string name="no_subjects">Es wurden noch keine Fächer hinzugefügt!</string>
     <string name="select_date">Wähle aus, bis wann die Hausaufgabe gemacht werden muss</string>
     <string name="select_date_hint">Datum</string>
     <string name="open_datePicker">Datum Wählen</string>

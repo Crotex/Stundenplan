@@ -401,26 +401,6 @@ public class Main
         getSupportActionBar().setTitle(title);
     }
 
-    // This method splits List at provided regex and converts it into a String
-    public String listToString(List<String> list, String regex) {
-        StringBuilder stringBuilder = new StringBuilder();
-        for(String s : list) {
-            stringBuilder.append(s);
-            stringBuilder.append(regex);
-        }
-        return stringBuilder.toString();
-    }
-
-    // This method splits String at provided regex and returns it as a List
-    public List<String> stringToList(String string, String regex) {
-        if(!string.equalsIgnoreCase("")) {
-            String[] stringArray = string.split(regex);
-            return new ArrayList<>(Arrays.asList(stringArray));
-        } else {
-            return new ArrayList<>();
-        }
-    }
-
     // Create the NotificationChannel, but only on API 26+ because
     // the NotificationChannel class is new and not in the support library
     private void createNotificationChannel() {
@@ -465,6 +445,26 @@ public class Main
 
             // Set weekly (7* daily interval) repeating alarm for the specified date executing the pendingIntent
             alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, date.getTime(), AlarmManager.INTERVAL_DAY * 7, pendingIntent);
+        }
+    }
+
+    // This method splits List at provided regex and converts it into a String
+    public String listToString(List<String> list, String regex) {
+        StringBuilder stringBuilder = new StringBuilder();
+        for(String s : list) {
+            stringBuilder.append(s);
+            stringBuilder.append(regex);
+        }
+        return stringBuilder.toString();
+    }
+
+    // This method splits String at provided regex and returns it as a List
+    public List<String> stringToList(String string, String regex) {
+        if(!string.equalsIgnoreCase("")) {
+            String[] stringArray = string.split(regex);
+            return new ArrayList<>(Arrays.asList(stringArray));
+        } else {
+            return new ArrayList<>();
         }
     }
 

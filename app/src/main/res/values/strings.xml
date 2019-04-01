@@ -9,6 +9,9 @@
     <string name="homework_overview">Hausaufgabenübersicht</string>
     <string name="about">Über die App</string>
 
+    <string name="notification_channel_desc">Benachrichtigungen der Stundenplan-App</string>
+    <string name="notification_desc">Heute hast du folgende Fächer:</string>
+
     <string name="welcome1">Herzlich Willkommen zu der Stundenplan-App!</string>
     <string name="welcome2">Hier wirst du nun deinen Stundenplan eintragen und weitere Einstellungen treffen können!</string>
     <string name="welcome3">Trage nun in die Box unten bitte deinen Namen ein und bestätige.</string>

@@ -1,10 +1,16 @@
 package com.stauss.simon.stundenplan;
 
 import android.annotation.SuppressLint;
+import android.app.AlarmManager;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -20,6 +26,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -123,6 +130,12 @@ public class Main
             homeworkOverviewItem.setEnabled(false);
         }
 
+        // Create notification channel
+        createNotificationChannel();
+
+        // Initialize Alarms
+        initializeAlarms();
+
         //  Open fragment with the schedule of today
         openFragment(scheduleToday);
     }
@@ -187,7 +200,7 @@ public class Main
         return true;
     }
 
-    // This is the first Time the user launched the app; open FirstLaunch Activity
+    // This is the first Time the user launched the app -> open FirstLaunch Activity
     private void firstLaunch() {
         Intent i = new Intent();
         i.setClass(this, FirstLaunch.class);
@@ -231,7 +244,8 @@ public class Main
         return day;
     }
 
-    //  Order of the days according to the Calendar library: Sunday(0), Monday(1), Tuesday(2), Wednesday(3), Thursday(4), Friday(5), Saturday(6)
+    //  Order of the days according to the Calendar library:
+    // Sunday(0), Monday(1), Tuesday(2), Wednesday(3), Thursday(4), Friday(5), Saturday(6)
     //  This method return the current DayNr (see above)
     public int getDayNr() {
         Calendar c = Calendar.getInstance();
@@ -404,6 +418,53 @@ public class Main
             return new ArrayList<>(Arrays.asList(stringArray));
         } else {
             return new ArrayList<>();
+        }
+    }
+
+    // Create the NotificationChannel, but only on API 26+ because
+    // the NotificationChannel class is new and not in the support library
+    private void createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = getString(R.string.schedule);
+            String description = getString(R.string.notification_channel_desc);
+            NotificationChannel channel = new NotificationChannel("default", name, NotificationManager.IMPORTANCE_DEFAULT);
+            channel.setDescription(description);
+            // Register the channel with the system
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
+    }
+
+    // This method sets up the alarms triggering the notification
+    private void initializeAlarms() {
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+
+        Calendar c = Calendar.getInstance();
+
+        // Setup Notifications for each day
+        for(int i = 1; i <= 5; i++) {
+            int h = getSharedPreferences().getInt("scheduleNotificationHour", 7);
+            int m = getSharedPreferences().getInt("scheduleNotificationMinute", 0);
+
+            c.set(Calendar.DAY_OF_WEEK, i+1);
+            c.set(Calendar.HOUR_OF_DAY, h);
+            c.set(Calendar.MINUTE, m);
+            c.set(Calendar.SECOND, 0);
+
+            Date date = c.getTime();
+
+            // This Intent will be opened when the alarm fires
+            // -> onReceive() in NotificationReceiver will be called
+            Intent intent = new Intent(this, NotificationReceiver.class);
+
+            // Put dayNr as extra
+            // 1 = Monday ... 5 = Friday
+            intent.putExtra("day", i);
+
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(this, i, intent, 0);
+
+            // Set weekly (7* daily interval) repeating alarm for the specified date executing the pendingIntent
+            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, date.getTime(), AlarmManager.INTERVAL_DAY * 7, pendingIntent);
         }
     }
 

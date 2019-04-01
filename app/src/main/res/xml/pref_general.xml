@@ -4,9 +4,10 @@
         android:title="@string/pref_header_general" >
 
         <EditTextPreference
+            android:autoText="false"
             android:capitalize="words"
             android:defaultValue="true"
-            android:inputType="textCapWords"
+            android:inputType="textPersonName"
             android:key="name_preference"
             android:maxLines="1"
             android:selectAllOnFocus="true"

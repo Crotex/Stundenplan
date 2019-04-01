@@ -68,13 +68,13 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                 preference.setSummary(stringValue);
             } */
 
-            // Settings are launched for the first time -> Display userName correctly
+            /* Settings are launched for the first time -> Display userName correctly
             if(stringValue.equalsIgnoreCase("Max Mustermann") && preference.getKey().equalsIgnoreCase("name_preference")) {
                 String userName = sharedPreferences.getString("userName", "");
                 preference.setSummary(userName);
                 preference.setDefaultValue(userName);
                 return true;
-            }
+            } */
 
             // User Name changend -> save to config and refresh name TextView
             if(preference.getKey().equalsIgnoreCase("name_preference")) {
@@ -123,8 +123,13 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         sharedPreferences = getMain().getSharedPreferences();
         prefEdit = getMain().getPrefEdit();
 
-        setupListener();
-        setupActionBar();
+        String userName = sharedPreferences.getString("userName", getString(R.string.userName));
+        if(PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putString("name_preference", userName).commit()) {
+            setupListener();
+            setupActionBar();
+        } else {
+            onCreate(savedInstanceState);
+        }
     }
 
     private void setupActionBar() {

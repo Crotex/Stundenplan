@@ -35,7 +35,12 @@ public class ScheduleEdit extends AppCompatActivity {
         prefEdit = getMain().getPrefEdit();
 
         // Get Current DayNr (1 = Monday, 5 = Friday
-        day = getIntent().getIntExtra("day", 1);
+        if(!getMain().isWeekend()) {
+            day = getIntent().getIntExtra("day", 1);
+        } else {
+            day = 1;
+        }
+
 
         // Is it Friday? -> remove "Weiter" Button (-> No saturday Schedule)
         // Is it Monday? -> remove "Zurück" Button

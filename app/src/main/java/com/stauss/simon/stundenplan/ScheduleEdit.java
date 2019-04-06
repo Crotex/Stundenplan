@@ -35,9 +35,10 @@ public class ScheduleEdit extends AppCompatActivity {
         prefEdit = getMain().getPrefEdit();
 
         // Get Current DayNr (1 = Monday, 5 = Friday
-        if(!getMain().isWeekend()) {
-            day = getIntent().getIntExtra("day", 1);
-        } else {
+        day = getIntent().getIntExtra("day", 1);
+
+        //Is it weekend?
+        if(day > 5) {
             day = 1;
         }
 

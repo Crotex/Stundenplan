@@ -65,10 +65,8 @@
     </string>
     <string name="about_copyright">© Simon Stauss</string>
 
-    <!-- Strings related to Settings -->
     <string name="title_activity_settings">Einstellungen</string>
 
-    <!-- Example General settings -->
     <string name="pref_header_general">Allgemein</string>
 
     <string name="pref_title_display_name">Name</string>
@@ -78,7 +76,6 @@
     <string name="pref_reset_schedule">Stundenplan zurücksetzen</string>
     <string name="pref_are_you_sure">Bist du dir sicher?</string>
 
-    <!-- Example settings for Notifications -->
     <string name="pref_header_notifications">Benachrichtigungen</string>
 
     <string name="pref_title_notifications">Benachrichtigungen</string>

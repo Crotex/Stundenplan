@@ -38,7 +38,7 @@ public class ScheduleEdit extends AppCompatActivity {
         day = getIntent().getIntExtra("day", 1);
 
         //Is it weekend?
-        if(day > 5) {
+        if(day == 6 || day == 0) {
             day = 1;
         }
 

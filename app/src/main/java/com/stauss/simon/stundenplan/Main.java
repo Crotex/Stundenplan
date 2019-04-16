@@ -244,9 +244,9 @@ public class Main
         return day;
     }
 
-    //  Order of the days according to the Calendar library:
+    // Order of the days according to the Calendar library:
     // Sunday(0), Monday(1), Tuesday(2), Wednesday(3), Thursday(4), Friday(5), Saturday(6)
-    //  This method return the current DayNr (see above)
+    // This method returns the current DayNr (see above)
     public int getDayNr() {
         Calendar c = Calendar.getInstance();
         dayNr = c.get(Calendar.DAY_OF_WEEK) - 1;
